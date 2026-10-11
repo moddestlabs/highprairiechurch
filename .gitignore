@@ -1,0 +1,16 @@
+# Build output
+dist/
+.astro/
+
+# Dependencies
+node_modules/
+
+# Legacy mirror archive (kept locally on disk)
+site-mirror/
+
+# OS and Editor files
+.DS_Store
+Thumbs.db
+*.log
+.vscode/
+.idea/

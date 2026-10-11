@@ -1,0 +1,65 @@
+media:
+  input: public/images
+  output: /images
+
+content:
+  - name: sermons
+    label: Sermons
+    type: collection
+    path: src/content/sermons
+    format: frontmatter
+    view:
+      fields: [title, date, scripture]
+      sort: [date:desc]
+    fields:
+      - name: title
+        label: Sermon Title
+        type: string
+        required: true
+      - name: date
+        label: Date
+        type: date
+        required: true
+      - name: scripture
+        label: Scripture Reference
+        type: string
+      - name: preacher
+        label: Preacher
+        type: string
+        default: Pastor Vernon Welkner
+      - name: youtube
+        label: YouTube Livestream Link
+        type: string
+      - name: body
+        label: Sermon Notes / Transcript
+        type: rich-text
+
+  - name: bulletins
+    label: Weekly Bulletins
+    type: collection
+    path: src/content/bulletins
+    format: frontmatter
+    view:
+      fields: [title, date]
+      sort: [date:desc]
+    fields:
+      - name: title
+        label: Title
+        type: string
+        required: true
+      - name: date
+        label: Date of Service
+        type: date
+        required: true
+      - name: coverImage
+        label: Cover Image
+        type: image
+      - name: insideImage
+        label: Inside Cover Image
+        type: image
+      - name: notesImage
+        label: Notes / Insert Image
+        type: image
+      - name: announcements
+        label: Announcements & Notes
+        type: rich-text

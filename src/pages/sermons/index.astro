@@ -1,0 +1,213 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+const allSermons = await getCollection('sermons');
+// Sort by date descending
+allSermons.sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+function formatDate(date: Date) {
+  return new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+---
+
+<Layout title="Sermons & Messages – High Prairie Church">
+  <div class="page-header">
+    <div class="container">
+      <h1>Sermons & Scripture Studies</h1>
+      <p>Search and read past Sunday messages and teachings from God's Word.</p>
+    </div>
+  </div>
+
+  <div class="container page-content">
+    <div class="sermon-controls">
+      <input type="text" id="sermon-search" placeholder="Search sermons by title, scripture, or topic..." class="search-input" />
+      <div class="sermon-count">Showing {allSermons.length} sermons</div>
+    </div>
+
+    <div class="sermons-grid" id="sermons-container">
+      {allSermons.map((sermon) => {
+        const slug = sermon.slug || sermon.data.slug;
+        return (
+          <article class="sermon-card" data-title={sermon.data.title.toLowerCase()} data-scripture={sermon.data.scripture.toLowerCase()}>
+            <div class="sermon-date">{formatDate(sermon.data.date)}</div>
+            <h3>
+              <a href={`${base}/sermons/${slug}/`}>{sermon.data.title}</a>
+            </h3>
+            {sermon.data.scripture && (
+              <div class="sermon-scripture">📖 {sermon.data.scripture}</div>
+            )}
+            <div class="sermon-preacher">👤 {sermon.data.preacher}</div>
+            <div class="sermon-action">
+              <a href={`${base}/sermons/${slug}/`} class="read-btn">Read Message →</a>
+            </div>
+          </article>
+        );
+      })}
+    </div>
+  </div>
+
+  <script>
+    const searchInput = document.getElementById('sermon-search') as HTMLInputElement;
+    const cards = document.querySelectorAll('.sermon-card');
+
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const query = (e.target as HTMLInputElement).value.toLowerCase().trim();
+        cards.forEach((card) => {
+          const title = card.getAttribute('data-title') || '';
+          const scripture = card.getAttribute('data-scripture') || '';
+          if (title.includes(query) || scripture.includes(query)) {
+            (card as HTMLElement).style.display = 'flex';
+          } else {
+            (card as HTMLElement).style.display = 'none';
+          }
+        });
+      });
+    }
+  </script>
+</Layout>
+
+<style>
+  .page-header {
+    background: linear-gradient(135deg, var(--color-navy) 0%, #283a8c 100%);
+    color: #ffffff;
+    padding: 50px 0;
+    text-align: center;
+  }
+
+  .page-header h1 {
+    color: #ffffff;
+    font-size: 3rem;
+  }
+
+  .page-header p {
+    font-size: 19px;
+    color: #d8e2f0;
+    max-width: 700px;
+    margin: 10px auto 0 auto;
+  }
+
+  .page-content {
+    padding: 40px 20px 80px 20px;
+  }
+
+  .sermon-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .search-input {
+    flex: 1;
+    min-width: 280px;
+    max-width: 500px;
+    padding: 12px 18px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    font-family: var(--font-body);
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .search-input:focus {
+    border-color: var(--color-navy);
+    box-shadow: 0 0 0 3px rgba(24, 32, 111, 0.1);
+  }
+
+  .sermon-count {
+    font-family: var(--font-nav);
+    font-size: 14px;
+    color: var(--color-text-muted);
+  }
+
+  .sermons-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .sermon-card {
+    background: #ffffff;
+    padding: 26px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+    border-top: 3px solid var(--color-navy);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .sermon-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  }
+
+  .sermon-date {
+    font-family: var(--font-nav);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-primary-dark);
+    margin-bottom: 8px;
+  }
+
+  .sermon-card h3 {
+    font-family: var(--font-title);
+    font-size: 1.25rem;
+    line-height: 1.35;
+    margin-bottom: 10px;
+  }
+
+  .sermon-card h3 a {
+    color: var(--color-navy);
+  }
+
+  .sermon-scripture {
+    font-size: 14px;
+    font-weight: 500;
+    color: #4a5568;
+    margin-bottom: 8px;
+  }
+
+  .sermon-preacher {
+    font-size: 13px;
+    color: var(--color-text-muted);
+    margin-bottom: 16px;
+    flex: 1;
+  }
+
+  .sermon-action {
+    margin-top: auto;
+    padding-top: 12px;
+    border-top: 1px dashed #e2e8f0;
+  }
+
+  .read-btn {
+    font-family: var(--font-nav);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-navy);
+  }
+
+  .read-btn:hover {
+    text-decoration: underline;
+  }
+
+  @media (max-width: 992px) {
+    .sermons-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 600px) {
+    .sermons-grid { grid-template-columns: 1fr; }
+  }
+</style>

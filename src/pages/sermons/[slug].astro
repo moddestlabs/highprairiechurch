@@ -1,0 +1,168 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const sermons = await getCollection('sermons');
+  return sermons.map((sermon) => ({
+    params: { slug: sermon.slug || sermon.data.slug },
+    props: { sermon },
+  }));
+}
+
+const { sermon } = Astro.props;
+const { Content } = await sermon.render();
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+
+function formatDate(date: Date) {
+  return new Date(date).toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  });
+}
+---
+
+<Layout title={`${sermon.data.title} – High Prairie Church`}>
+  <div class="sermon-header">
+    <div class="container sermon-header-content">
+      <a href={`${base}/sermons/`} class="back-link">← Back to Sermon Archive</a>
+      <div class="sermon-meta">
+        <span class="sermon-date">{formatDate(sermon.data.date)}</span>
+        <span class="meta-dot">•</span>
+        <span class="sermon-speaker">{sermon.data.preacher}</span>
+      </div>
+      <h1>{sermon.data.title}</h1>
+      {sermon.data.scripture && (
+        <div class="sermon-scripture-badge">
+          📖 {sermon.data.scripture}
+        </div>
+      )}
+    </div>
+  </div>
+
+  <div class="container sermon-body-wrap">
+    <div class="sermon-card">
+      <div class="sermon-prose">
+        <Content />
+      </div>
+
+      <div class="sermon-footer">
+        <div class="sermon-church-info">
+          <strong>High Prairie Church</strong><br />
+          26480 187th Street, Leavenworth, KS 66048 • (913) 727-1576
+        </div>
+        <div class="sermon-share">
+          <a href={`${base}/sermons/`} class="btn btn-navy">Browse More Sermons</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .sermon-header {
+    background: linear-gradient(135deg, var(--color-navy) 0%, #283a8c 100%);
+    color: #ffffff;
+    padding: 50px 0 40px 0;
+  }
+
+  .sermon-header-content {
+    max-width: 860px;
+  }
+
+  .back-link {
+    color: var(--color-accent);
+    font-family: var(--font-nav);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+
+  .back-link:hover {
+    color: #ffffff;
+  }
+
+  .sermon-meta {
+    font-family: var(--font-nav);
+    font-size: 14px;
+    color: #c7d2e4;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .meta-dot {
+    opacity: 0.5;
+  }
+
+  .sermon-header h1 {
+    color: #ffffff;
+    font-size: 2.8rem;
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+
+  .sermon-scripture-badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, 0.15);
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-family: var(--font-nav);
+    font-size: 15px;
+    color: #ffffff;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+
+  .sermon-body-wrap {
+    max-width: 860px;
+    padding: 40px 20px 80px 20px;
+  }
+
+  .sermon-card {
+    background: #ffffff;
+    padding: 48px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  }
+
+  .sermon-prose {
+    font-size: 18px;
+    line-height: 1.8;
+    color: #2d3748;
+  }
+
+  .sermon-prose p {
+    margin-bottom: 1.5rem;
+  }
+
+  .sermon-prose h2, .sermon-prose h3 {
+    color: var(--color-navy);
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .sermon-footer {
+    margin-top: 40px;
+    padding-top: 30px;
+    border-top: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+
+  .sermon-church-info {
+    font-size: 14px;
+    color: var(--color-text-muted);
+  }
+
+  @media (max-width: 768px) {
+    .sermon-header h1 { font-size: 2.1rem; }
+    .sermon-card { padding: 28px 20px; }
+  }
+</style>

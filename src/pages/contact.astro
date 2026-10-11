@@ -1,0 +1,239 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Contact Us – High Prairie Church">
+  <div class="page-header">
+    <div class="container">
+      <h1>Contact Us</h1>
+      <p>We appreciate your questions, prayer requests, and comments. Get in touch with our team.</p>
+    </div>
+  </div>
+
+  <div class="container page-content">
+    <div class="contact-grid">
+      <!-- Contact Info & Directory -->
+      <div class="contact-info">
+        <h2>Church Office & Location</h2>
+        <div class="info-block">
+          <div class="info-icon">📍</div>
+          <div>
+            <strong>Address:</strong><br />
+            26480 187th Street<br />
+            Leavenworth, KS 66048<br />
+            <small style="color: #64748b;">(At the intersection of Eisenhower & 187th St.)</small>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-icon">📞</div>
+          <div>
+            <strong>Phone:</strong><br />
+            <a href="tel:9137271576">(913) 727-1576</a>
+          </div>
+        </div>
+
+        <div class="info-block">
+          <div class="info-icon">📱</div>
+          <div>
+            <strong>Social & Livestream:</strong><br />
+            <a href="https://www.facebook.com/HPCLeavenworth/" target="_blank" rel="noopener">Facebook: @HPCLeavenworth</a><br />
+            <a href="https://youtube.com/@highprairiechurch" target="_blank" rel="noopener">YouTube: @highprairiechurch</a>
+          </div>
+        </div>
+
+        <h3 style="margin-top: 36px; margin-bottom: 16px; font-size: 1.4rem; color: var(--color-navy);">Staff Directory</h3>
+        <ul class="directory-list">
+          <li>
+            <strong>Pastor Vernon Welkner</strong> (Head Pastor)<br />
+            <a href="mailto:pastorvern@highprairiechurch.org">pastorvern@highprairiechurch.org</a>
+          </li>
+          <li>
+            <strong>Pastor Jerry Mallonee</strong> (Youth Minister)<br />
+            <a href="mailto:pastorjerry@highprairiechurch.org">pastorjerry@highprairiechurch.org</a>
+          </li>
+          <li>
+            <strong>Bill Packwood</strong> (Administrative Assistant)<br />
+            <a href="mailto:admin@highprairiechurch.org">admin@highprairiechurch.org</a>
+          </li>
+          <li>
+            <strong>Jennifer Mallonee</strong> (Bookkeeper)<br />
+            <a href="mailto:admin@highprairiechurch.org">admin@highprairiechurch.org</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Contact Form -->
+      <div class="contact-form-card">
+        <h2>Send Us a Message</h2>
+        <p style="font-size: 15px; color: var(--color-text-muted); margin-bottom: 24px;">
+          Have a question or prayer request? Fill out the form below or email us directly at <a href="mailto:admin@highprairiechurch.org">admin@highprairiechurch.org</a>.
+        </p>
+
+        <form action="https://formspree.io/f/placeholder" method="POST" class="form">
+          <div class="form-group">
+            <label for="name">Your Name *</label>
+            <input type="text" id="name" name="name" required class="form-input" placeholder="John Doe" />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address *</label>
+            <input type="email" id="email" name="email" required class="form-input" placeholder="john@example.com" />
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number (Optional)</label>
+            <input type="tel" id="phone" name="phone" class="form-input" placeholder="(913) 555-0123" />
+          </div>
+
+          <div class="form-group">
+            <label for="message">Message or Prayer Request *</label>
+            <textarea id="message" name="message" rows="5" required class="form-textarea" placeholder="How can we help or pray for you?"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-navy" style="width: 100%; padding: 14px;">Send Message</button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Map Embed / Directions Section -->
+    <div class="map-section">
+      <h2>Directions to High Prairie Church</h2>
+      <p style="margin-bottom: 20px;">
+        High Prairie Church is located 7 miles west of Lansing, Kansas, and 9 miles west of downtown Leavenworth. Access is straightforward via Springdale Road from Leavenworth or Eisenhower Road from Lansing.
+      </p>
+      <div class="map-wrap">
+        <iframe
+          title="High Prairie Church Location Map"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3083.567087814402!2d-95.03478982346067!3d39.31952392176465!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x87c062828b1e4c73%3A0x6b6c208c909ee1ef!2sHigh%20Prairie%20Church!5e0!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus"
+          width="100%"
+          height="450"
+          style="border:0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .page-header {
+    background: linear-gradient(135deg, var(--color-navy) 0%, #283a8c 100%);
+    color: #ffffff;
+    padding: 50px 0;
+    text-align: center;
+  }
+
+  .page-header h1 {
+    color: #ffffff;
+    font-size: 3rem;
+  }
+
+  .page-header p {
+    font-size: 19px;
+    color: #d8e2f0;
+    margin-top: 8px;
+  }
+
+  .page-content {
+    padding: 40px 20px 80px 20px;
+  }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 48px;
+    margin-bottom: 60px;
+  }
+
+  .contact-info h2, .contact-form-card h2 {
+    color: var(--color-navy);
+    font-size: 2rem;
+    margin-bottom: 24px;
+  }
+
+  .info-block {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .info-icon {
+    font-size: 24px;
+    flex-shrink: 0;
+  }
+
+  .directory-list {
+    list-style: none;
+  }
+
+  .directory-list li {
+    padding: 10px 0;
+    border-bottom: 1px dashed #e2e8f0;
+    font-size: 15px;
+  }
+
+  .contact-form-card {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    border-top: 4px solid var(--color-navy);
+  }
+
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    font-family: var(--font-nav);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-navy);
+    margin-bottom: 6px;
+  }
+
+  .form-input, .form-textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    font-family: var(--font-body);
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+
+  .form-input:focus, .form-textarea:focus {
+    border-color: var(--color-navy);
+    box-shadow: 0 0 0 3px rgba(24, 32, 111, 0.1);
+  }
+
+  .map-section {
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.04);
+  }
+
+  .map-section h2 {
+    color: var(--color-navy);
+    font-size: 2rem;
+    margin-bottom: 12px;
+  }
+
+  .map-wrap {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  }
+
+  @media (max-width: 900px) {
+    .contact-grid { grid-template-columns: 1fr; }
+  }
+</style>
