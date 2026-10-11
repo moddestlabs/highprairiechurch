@@ -1,12 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <Layout title="Donate & Support – High Prairie Church">
-  <div class="page-header">
-    <div class="container">
-      <h1>Support High Prairie Church</h1>
-      <p>Your generous tax-deductible gift supports our local ministries, worship services, and community outreach.</p>
+  <div class="subpage-banner">
+    <div class="subpage-banner-inner">
+      <img src={`${base}/images/glowing-cross.jpg`} alt="Donate" class="subpage-banner-img" />
+      <h1 class="subpage-banner-title">Donate</h1>
     </div>
   </div>
 
@@ -53,24 +54,7 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style>
-  .page-header {
-    background: linear-gradient(135deg, var(--color-navy) 0%, #283a8c 100%);
-    color: #ffffff;
-    padding: 50px 0;
-    text-align: center;
-  }
 
-  .page-header h1 {
-    color: #ffffff;
-    font-size: 3rem;
-  }
-
-  .page-header p {
-    font-size: 19px;
-    color: #d8e2f0;
-    max-width: 700px;
-    margin: 10px auto 0 auto;
-  }
 
   .page-content {
     max-width: 900px;

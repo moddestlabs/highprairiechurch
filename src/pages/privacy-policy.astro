@@ -1,12 +1,13 @@
 ---
 import Layout from '../layouts/Layout.astro';
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <Layout title="Privacy Policy – High Prairie Church">
-  <div class="page-header">
-    <div class="container">
-      <h1>Privacy Policy</h1>
-      <p>High Prairie Church • Leavenworth, Kansas</p>
+  <div class="subpage-banner">
+    <div class="subpage-banner-inner">
+      <img src={`${base}/images/glowing-cross.jpg`} alt="Privacy Policy" class="subpage-banner-img" />
+      <h1 class="subpage-banner-title">Privacy Policy</h1>
     </div>
   </div>
 
@@ -45,23 +46,7 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style>
-  .page-header {
-    background: linear-gradient(135deg, var(--color-navy) 0%, #283a8c 100%);
-    color: #ffffff;
-    padding: 50px 0;
-    text-align: center;
-  }
 
-  .page-header h1 {
-    color: #ffffff;
-    font-size: 3rem;
-  }
-
-  .page-header p {
-    font-size: 19px;
-    color: #d8e2f0;
-    margin-top: 8px;
-  }
 
   .page-content {
     max-width: 860px;

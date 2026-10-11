@@ -63,9 +63,10 @@ function formatDate(date: Date) {
 
 <style>
   .sermon-header {
-    background: linear-gradient(135deg, var(--color-navy) 0%, #283a8c 100%);
-    color: #ffffff;
-    padding: 50px 0 40px 0;
+    background: var(--pagelayer-color-bg-light);
+    color: var(--color-text);
+    padding: 40px 0 30px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
   }
 
   .sermon-header-content {
@@ -73,22 +74,22 @@ function formatDate(date: Date) {
   }
 
   .back-link {
-    color: var(--color-accent);
+    color: var(--color-text);
     font-family: var(--font-nav);
     font-size: 14px;
     font-weight: 600;
-    margin-bottom: 20px;
+    margin-bottom: 16px;
     display: inline-block;
   }
 
   .back-link:hover {
-    color: #ffffff;
+    color: #000;
   }
 
   .sermon-meta {
     font-family: var(--font-nav);
     font-size: 14px;
-    color: #c7d2e4;
+    color: #64748b;
     display: flex;
     align-items: center;
     gap: 8px;
@@ -100,9 +101,10 @@ function formatDate(date: Date) {
   }
 
   .sermon-header h1 {
-    color: #ffffff;
+    color: var(--color-text);
     font-size: 2.8rem;
     line-height: 1.2;
+    font-family: var(--font-heading);
     margin-bottom: 16px;
   }
 
