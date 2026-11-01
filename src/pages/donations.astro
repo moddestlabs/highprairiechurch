@@ -3,7 +3,7 @@ import Layout from '../layouts/Layout.astro';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
-<Layout title="Donate & Support – High Prairie Church">
+<Layout title="Donate – High Prairie Church">
   <div class="subpage-banner">
     <div class="subpage-banner-inner">
       <img src={`${base}/images/glowing-cross.jpg`} alt="Donate" class="subpage-banner-img" />
@@ -12,97 +12,69 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   </div>
 
   <div class="container page-content">
-    <div class="donation-wrap">
-      <div class="donation-intro">
-        <h2>Online Giving</h2>
-        <p>
-          Thank you for prayerfully investing in the work of God at High Prairie Church!
-        </p>
+    <div class="donations-container">
+      <p class="donations-intro">
+        Your donation supports our programs, services and outreach to the community. Thank you!
+      </p>
 
-        <div class="zeffy-notice">
-          <strong>ℹ️ A Note Regarding Our Free Giving Service:</strong>
-          <p style="margin-top: 6px; font-size: 14.5px;">
-            Our payment processor, <strong>Zeffy</strong>, provides 100% of this online donation service to our church free of charge (0% platform fee and 0% credit card processing fee!). To cover their costs, Zeffy gives you the option to make a voluntary contribution to their platform. <em>This is entirely optional.</em> If you do not wish to contribute an extra amount to Zeffy, simply select "Other" and enter "0" in the percentage box when completing your donation.
-          </p>
-        </div>
-      </div>
+      <p class="donations-note">
+        NOTE: Our payment processor, Zeffy, provides this donation service to us free of charge. They do ask you for an additional donation to reduce their expenses, but this is entirely up to you. If you don't want to make this additional donation, simply change the percentage to zero when Zeffy asks you to contribute a certain percentage to them.
+      </p>
 
-      <!-- Zeffy Embedded Form -->
-      <div class="zeffy-embed-container">
+      <div class="zeffy-frame-wrap">
         <iframe
           title="Donation form powered by Zeffy"
-          style="border: 0; width: 100%; height: 750px; border-radius: 12px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);"
+          style="border: 0; width: 100%; height: 750px; border-radius: 8px;"
           src="https://www.zeffy.com/embed/donation-form/donate-online"
           allowpaymentrequest="allowpaymentrequest"
           allowtransparency="true">
         </iframe>
-      </div>
-
-      <div class="mail-giving-box">
-        <h3>Giving by Mail</h3>
-        <p>
-          If you prefer to give by check, please make checks payable to <strong>High Prairie Church</strong> and mail to:
-        </p>
-        <div class="mail-address">
-          <strong>High Prairie Church</strong><br />
-          26480 187th Street<br />
-          Leavenworth, KS 66048
-        </div>
       </div>
     </div>
   </div>
 </Layout>
 
 <style>
-
-
   .page-content {
     max-width: 900px;
+    margin: 0 auto;
     padding: 40px 20px 80px 20px;
   }
 
-  .donation-intro h2 {
-    color: var(--color-navy);
-    font-size: 2.2rem;
-    margin-bottom: 12px;
-  }
-
-  .zeffy-notice {
-    background: #f0fdf4;
-    border: 1px solid #bbf7d0;
-    border-left: 4px solid var(--color-primary-dark);
-    padding: 20px;
-    border-radius: 8px;
-    margin: 24px 0 36px 0;
-  }
-
-  .zeffy-notice strong {
-    color: #166534;
-  }
-
-  .zeffy-embed-container {
-    margin-bottom: 40px;
-  }
-
-  .mail-giving-box {
+  .donations-container {
     background: #ffffff;
-    padding: 32px;
+    padding: 40px;
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-    border-top: 3px solid var(--color-navy);
   }
 
-  .mail-giving-box h3 {
-    color: var(--color-navy);
-    margin-bottom: 10px;
+  .donations-intro {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--color-text);
+    margin-bottom: 16px;
+    font-weight: 500;
   }
 
-  .mail-address {
-    background: #f8fafc;
-    padding: 16px;
-    border-radius: 6px;
-    font-family: var(--font-nav);
-    margin-top: 14px;
-    display: inline-block;
+  .donations-note {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: #555555;
+    background: var(--pagelayer-color-bg-light);
+    padding: 16px 20px;
+    border-radius: 8px;
+    border-left: 4px solid var(--pagelayer-color-accent);
+    margin-bottom: 30px;
+  }
+
+  .zeffy-frame-wrap {
+    width: 100%;
+    margin: 0 auto;
+  }
+
+  @media (max-width: 768px) {
+    .donations-container {
+      padding: 24px 16px;
+    }
   }
 </style>

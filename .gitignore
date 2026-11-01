@@ -7,6 +7,7 @@ node_modules/
 
 # Legacy mirror archive (kept locally on disk)
 site-mirror/
+backup/
 
 # OS and Editor files
 .DS_Store

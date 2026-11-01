@@ -1,4 +1,7 @@
 ---
+import SeasonalUtilityBar from '../components/SeasonalUtilityBar.astro';
+import { getActiveSeason } from '../config/seasons';
+
 interface Props {
   title?: string;
   description?: string;
@@ -10,10 +13,11 @@ const {
 } = Astro.props;
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const buildSeason = getActiveSeason();
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-season={buildSeason?.id || 'none'}>
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -173,6 +177,29 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     .btn-gold:hover {
       background-color: #cbac0d;
       transform: translateY(-1px);
+    }
+
+    /* Seasonal Color Accents (Subtle, tasteful touches) */
+    html[data-season="autumn"] {
+      --pagelayer-color-gold: #c47e1b;
+    }
+    html[data-season="autumn"] .btn-gold {
+      background-color: #c47e1b;
+      color: #ffffff !important;
+    }
+    html[data-season="autumn"] .btn-gold:hover {
+      background-color: #ad6b10;
+    }
+
+    html[data-season="christmas"] {
+      --pagelayer-color-gold: #9a2b37;
+    }
+    html[data-season="christmas"] .btn-gold {
+      background-color: #9a2b37;
+      color: #ffffff !important;
+    }
+    html[data-season="christmas"] .btn-gold:hover {
+      background-color: #7d202b;
     }
 
     .btn-navy {
@@ -364,9 +391,15 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, 0.15);
     }
 
+    .footer-top-wave {
+      line-height: 0;
+      width: 100%;
+      overflow: hidden;
+    }
+
     .footer-top-wave svg {
       width: 100%;
-      height: 50px;
+      height: 35px;
       display: block;
     }
 
@@ -483,6 +516,19 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       margin: 0;
     }
 
+    @media (max-width: 1024px) and (min-width: 769px) {
+      .header-inner {
+        padding: 14px 16px;
+      }
+      .brand-title {
+        font-size: 22px;
+      }
+      .nav-link {
+        padding: 8px 12px;
+        font-size: 15px;
+      }
+    }
+
     @media (max-width: 768px) {
       .mobile-menu-btn {
         display: block;
@@ -545,6 +591,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 </head>
 <body>
 
+  <!-- Seasonal Top Utility Bar (Auto-managed by date/season) -->
+  <SeasonalUtilityBar />
+
   <!-- Original Header -->
   <header class="site-header">
     <div class="header-inner">
@@ -556,7 +605,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <button class="mobile-menu-btn" id="mobile-toggle" aria-label="Toggle navigation">☰</button>
 
       <ul class="nav-menu" id="nav-links">
-        <li class="nav-item"><a href={`${base}/`} class="nav-link">Home</a></li>
         <li class="nav-item">
           <a href={`${base}/about/`} class="nav-link">About Us ▾</a>
           <ul class="dropdown">
@@ -567,6 +615,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             <li><a href={`${base}/about/#calendar`}>Calendar and Events</a></li>
             <li><a href={`${base}/sermons/`}>All Sermons</a></li>
             <li><a href={`${base}/bulletin/`}>Current Bulletin</a></li>
+            <li><a href={`${base}/directory/`}>Member Directory</a></li>
           </ul>
         </li>
         <li class="nav-item">
@@ -579,10 +628,10 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
           </ul>
         </li>
         <li class="nav-item">
-          <a href={`${base}/contact/`} class="nav-link">Contact Us ▾</a>
-          <ul class="dropdown">
-            <li><a href={`${base}/pastor-search/`}>Pastor Search</a></li>
-          </ul>
+          <a href={`${base}/directory/`} class="nav-link">Directory</a>
+        </li>
+        <li class="nav-item">
+          <a href={`${base}/contact/`} class="nav-link">Contact Us</a>
         </li>
         <li class="nav-item">
           <a href={`${base}/donations/`} class="nav-link">Donate</a>
@@ -597,13 +646,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   <!-- Original Footer -->
   <footer class="site-footer">
-    <!-- Wavy Top Divider -->
-    <div class="footer-top-wave">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
-        <path fill="#89b3f1" d="M790.5,93.1c-59.3-5.3-116.8-18-192.6-50c-29.6-12.7-76.9-31-100.5-35.9c-23.6-4.9-52.6-7.8-75.5-5.3c-10.2,1.1-22.6,1.4-50.1,7.4c-27.2,6.3-58.2,16.6-79.4,24.7c-41.3,15.9-94.9,21.9-134,22.6C72,58.2,0,25.8,0,25.8V100h1000V65.3c0,0-51.5,19.4-106.2,25.7C839.5,97,814.1,95.2,790.5,93.1z"></path>
-      </svg>
-    </div>
-
     <div class="footer-main">
       <a href={`${base}/`} class="footer-title">High Prairie Church</a>
       <div class="footer-subtitle">Come be part of our family.</div>
@@ -619,9 +661,17 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
         <li><a href={`${base}/`}>Home</a></li>
         <li><a href={`${base}/about/`}>About Us</a></li>
         <li><a href={`${base}/programs/`}>Programs</a></li>
+        <li><a href={`${base}/directory/`}>Directory</a></li>
         <li><a href={`${base}/contact/`}>Contact Us</a></li>
         <li><a href={`${base}/donations/`}>Donate</a></li>
       </ul>
+    </div>
+
+    <!-- Wavy Divider above copyright -->
+    <div class="footer-top-wave">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+        <path fill="var(--pagelayer-color-accent)" d="M790.5,93.1c-59.3-5.3-116.8-18-192.6-50c-29.6-12.7-76.9-31-100.5-35.9c-23.6-4.9-52.6-7.8-75.5-5.3c-10.2,1.1-22.6,1.4-50.1,7.4c-27.2,6.3-58.2,16.6-79.4,24.7c-41.3,15.9-94.9,21.9-134,22.6C72,58.2,0,25.8,0,25.8V100h1000V65.3c0,0-51.5,19.4-106.2,25.7C839.5,97,814.1,95.2,790.5,93.1z"></path>
+      </svg>
     </div>
 
     <div class="footer-bottom-bar">
@@ -637,12 +687,25 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   </footer>
 
   <script>
+    import { SEASONS, isDateInSeason } from '../config/seasons';
+
     const toggleBtn = document.getElementById('mobile-toggle');
     const navLinks = document.getElementById('nav-links');
     if (toggleBtn && navLinks) {
       toggleBtn.addEventListener('click', () => {
         navLinks.classList.toggle('active');
       });
+    }
+
+    // Synchronize seasonal styling attribute if preview parameter or client date differs
+    const params = new URLSearchParams(window.location.search);
+    const previewParam = params.get('season');
+    if (previewParam) {
+      document.documentElement.setAttribute('data-season', previewParam);
+    } else {
+      const now = new Date();
+      const active = SEASONS.find(s => isDateInSeason(now.getMonth() + 1, now.getDate(), s.start, s.end));
+      document.documentElement.setAttribute('data-season', active ? active.id : 'none');
     }
   </script>
 </body>

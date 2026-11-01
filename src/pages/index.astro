@@ -1,15 +1,16 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import SeasonalSpotlight from '../components/SeasonalSpotlight.astro';
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 ---
 
 <Layout title="High Prairie Church – A Family">
 
-  <!-- Desktop Two-Column Layout Wrapper -->
-  <div class="site-main-layout">
+  <!-- Desktop Hero Layout Wrapper (Scoped to Welcome + Pastor Vern) -->
+  <div class="hero-layout-wrapper">
 
-    <!-- Left / Center Main Content Stream -->
-    <div class="main-content-stream">
+    <!-- Left / Center Main Content Stream for Hero -->
+    <div class="hero-content-stream">
 
       <!-- Section 1: Welcome Header -->
       <section class="welcome-section">
@@ -34,10 +35,6 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
       <!-- Section 2: Pastor Vern Welcome -->
       <section class="pastor-welcome-section">
-        <div class="pastor-parallax-banner">
-          <img src={`${base}/images/HomeWave3.jpg`} alt="Prairie Landscape Banner" class="banner-img" />
-        </div>
-
         <div class="pastor-content-container">
           <div class="pastor-img-col">
             <img src={`${base}/images/Pastor_Vern.jpg`} alt="Pastor Vernon Welkner" class="pastor-img" />
@@ -52,239 +49,19 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
             </div>
           </div>
         </div>
-      </section>
 
-      <!-- Wave Separator: Cool Gray to Soft Blue -->
-      <div class="wave-divider wave-to-sky">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
-          <path fill="#afc9f1" d="M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7c23.6,2.1,48.7,3.5,103.4-2.5c54.7-6,106.2-25.6,106.2-25.6V0H0v30.3c0,0,72,32.6,158.4,30.5c39.2-0.7,92.8-6.7,134-22.4c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z"></path>
-        </svg>
-      </div>
-
-      <!-- Mobile/Tablet Interactive Tabs (Visible only on <= 768px) -->
-      <section class="mobile-tabs-section">
-        <div class="tabs-holder">
-          <button class="tablink active" data-tab="tab-times">Times</button>
-          <button class="tablink" data-tab="tab-location">Location</button>
-          <button class="tablink" data-tab="tab-livestream">Livestream</button>
-          <button class="tablink" data-tab="tab-contact">Contact Us</button>
-        </div>
-
-        <div class="tabs-body">
-          <!-- Tab 1: Times -->
-          <div id="tab-times" class="tab-pane active">
-            <div class="times-schedule-grid">
-              <div class="schedule-day">
-                <p class="day-heading"><strong>Sunday</strong></p>
-                <p class="schedule-item">Sunday School - 9:30 AM</p>
-                <p class="schedule-item">Morning Worship Service - 10:45 AM</p>
-                <p class="schedule-item">Evening Bible Study - 6:00 PM</p>
-                <p class="schedule-item">Teen Club - 6:00 PM</p>
-              </div>
-              <div class="schedule-day">
-                <p class="day-heading"><strong>Monday</strong></p>
-                <p class="schedule-item">Men's Bible Study - 6:30 PM</p>
-                <p class="day-heading" style="margin-top: 10px;"><strong>Wednesday</strong></p>
-                <p class="schedule-item">Ladies Bible Study - 9:30 AM</p>
-                <p class="schedule-item">Choir Practice - 6:30 PM</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- Tab 2: Location -->
-          <div id="tab-location" class="tab-pane">
-            <p style="text-align: center; font-weight: 400; margin-bottom: 12px;">
-              26480 187th Street, Leavenworth KS, 66048.<br />
-              At the intersection of Eisenhower and 187th Street.
-            </p>
-            <div class="tab-map-wrap">
-              <iframe width="100%" height="220" style="border:0; border-radius: 10px;" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDhJlqq5Um06PGsIFjNo4hRIjV2CRQisTQ&maptype=roadmap&zoom=10&q=High+Prairie+Church"></iframe>
-            </div>
-          </div>
-
-          <!-- Tab 3: Livestream -->
-          <div id="tab-livestream" class="tab-pane" style="text-align: center;">
-            <p>Catch Pastor Vern’s Sunday message on YouTube.</p>
-            <div class="tab-video-wrap">
-              <iframe width="100%" height="200" src="https://www.youtube.com/embed/0htUpbXk074?si=XPNZyVZ2wYAABidA" title="YouTube video player" frameborder="0" allowfullscreen style="border-radius: 10px; max-width: 380px;"></iframe>
-            </div>
-            <p style="margin-top: 10px; font-size: 14px;">Previous messages on <a href="https://www.facebook.com/HPCLeavenworth/" target="_blank" rel="noopener">Facebook</a>.</p>
-          </div>
-
-          <!-- Tab 4: Contact Us -->
-          <div id="tab-contact" class="tab-pane" style="text-align: center;">
-            <p style="font-size: 18px; margin-bottom: 8px;">
-              📞 <a href="tel:9137271576">(913) 727-1576</a>
-            </p>
-            <p style="font-size: 16px;">
-              ✉️ <a href="mailto:webmaster@highprairiechurch.org">webmaster@highprairiechurch.org</a>
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <!-- Section 3: "Get to Know Us" Header -->
-      <section class="get-to-know-header">
-        <h2 class="section-title">Get to Know Us</h2>
-      </section>
-
-      <!-- Multi-color wave transitions: Sky to Green -->
-      <div class="wave-divider wave-to-primary">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
-          <path fill="#c4e090" d="M790.5,93.1c-59.3-5.3-116.8-18-192.6-50c-29.6-12.7-76.9-31-100.5-35.9c-23.6-4.9-52.6-7.8-75.5-5.3c-10.2,1.1-22.6,1.4-50.1,7.4c-27.2,6.3-58.2,16.6-79.4,24.7c-41.3,15.9-94.9,21.9-134,22.6C72,58.2,0,25.8,0,25.8V100h1000V65.3c0,0-51.5,19.4-106.2,25.7C839.5,97,814.1,95.2,790.5,93.1z"></path>
-        </svg>
-      </div>
-
-      <!-- Section 4: 9 Service Photo Cards -->
-      <section class="cards-section">
-        <div class="cards-grid">
-
-          <!-- Card 1: Our Beliefs -->
-          <div class="service-card">
-            <div class="service-card-img-wrap">
-              <img src={`${base}/images/gallery1-6.jpg`} alt="Our Beliefs" class="service-card-img" />
-            </div>
-            <div class="service-card-content">
-              <h3>Our Beliefs</h3>
-              <p>What our church believes in and sees as our purpose</p>
-            </div>
-            <a href={`${base}/about/#beliefs`} class="service-card-link" aria-label="Our Beliefs"></a>
-          </div>
-
-          <!-- Card 2: Our History -->
-          <div class="service-card">
-            <div class="service-card-img-wrap">
-              <img src={`${base}/images/Sunset.church.jpg`} alt="Our History" class="service-card-img" />
-            </div>
-            <div class="service-card-content">
-              <h3>Our History</h3>
-              <p>Serving Leavenworth County since 1861!</p>
-            </div>
-            <a href={`${base}/about/#history`} class="service-card-link" aria-label="Our History"></a>
-          </div>
-
-          <!-- Card 3: Our Staff -->
-          <div class="service-card">
-            <div class="service-card-img-wrap">
-              <img src={`${base}/images/Staff.jpg`} alt="Our Staff" class="service-card-img" />
-            </div>
-            <div class="service-card-content">
-              <h3>Our Staff</h3>
-              <p>Meet our Pastors and other staff, eager to serve you.</p>
-            </div>
-            <a href={`${base}/about/#staff`} class="service-card-link" aria-label="Our Staff"></a>
-          </div>
-
-          <!-- Card 4: Sermons -->
-          <div class="service-card">
-            <div class="service-card-img-wrap">
-              <img src={`${base}/images/gallery1-5.jpg`} alt="Sermons" class="service-card-img" />
-            </div>
-            <div class="service-card-content">
-              <h3>Sermons</h3>
-              <p>Library of past sermons preached at our church.</p>
-            </div>
-            <a href={`${base}/sermons/`} class="service-card-link" aria-label="Sermons"></a>
-          </div>
-
-          <!-- Card 5: Education -->
-          <div class="service-card">
-            <div class="service-card-img-wrap">
-              <img src={`${base}/images/gallery1-17.jpg`} alt="Education" class="service-card-img" />
-            </div>
-            <div class="service-card-content">
-              <h3>Education</h3>
-              <p>Variety of Bible study groups and Sunday School classes for adults and young people.</p>
-            </div>
-            <a href={`${base}/programs/#education`} class="service-card-link" aria-label="Education"></a>
-          </div>
-
-          <!-- Card 6: Contact Us -->
-          <div class="service-card">
-            <div class="service-card-img-wrap">
-              <img src={`${base}/images/Adult-Bible-Study-2.jpg`} alt="Contact Us" class="service-card-img" />
-            </div>
-            <div class="service-card-content">
-              <h3>Contact Us</h3>
-              <p>We appreciate all your questions and comments!</p>
-            </div>
-            <a href={`${base}/contact/`} class="service-card-link" aria-label="Contact Us"></a>
-          </div>
-
-          <!-- Card 7: Children & Youth -->
-          <div class="service-card">
-            <div class="service-card-img-wrap">
-              <img src={`${base}/images/kids-1.jpg`} alt="Children & Youth" class="service-card-img" />
-            </div>
-            <div class="service-card-content">
-              <h3>Children & Youth</h3>
-              <p>Teens and kids are VIP's here!</p>
-            </div>
-            <a href={`${base}/programs/#kids`} class="service-card-link" aria-label="Children & Youth"></a>
-          </div>
-
-          <!-- Card 8: Family Activities -->
-          <div class="service-card">
-            <div class="service-card-img-wrap">
-              <img src={`${base}/images/GalleryNew-2.jpg`} alt="Family Activities" class="service-card-img" />
-            </div>
-            <div class="service-card-content">
-              <h3>Family Activities</h3>
-              <p>Fun and fellowship!</p>
-            </div>
-            <a href={`${base}/programs/#activities`} class="service-card-link" aria-label="Family Activities"></a>
-          </div>
-
-          <!-- Card 9: Missions -->
-          <div class="service-card">
-            <div class="service-card-img-wrap">
-              <img src={`${base}/images/Activites.png`} alt="Missions" class="service-card-img" />
-            </div>
-            <div class="service-card-content">
-              <h3>Missions</h3>
-              <p>Providing outreach and support.</p>
-            </div>
-            <a href={`${base}/programs/#missions`} class="service-card-link" aria-label="Missions"></a>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- Multi-color wave transition: Teal to Blue -->
-      <div class="wave-divider wave-to-teal">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
-          <path fill="#89c1bd" d="M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7c23.6,2.1,48.7,3.5,103.4-2.5c54.7-6,106.2-25.6,106.2-25.6V0H0v30.3c0,0,72,32.6,158.4,30.5c39.2-0.7,92.8-6.7,134-22.4c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z"></path>
-        </svg>
-      </div>
-
-      <!-- Section 5: Location & Directions -->
-      <section class="location-section">
-        <div class="location-bg-overlay" style={`background-image: url('${base}/images/Sunset.church.jpg');`}></div>
-        <div class="location-inner-grid">
-          <!-- Left: Google Map directions -->
-          <div class="location-map-col">
-            <div class="map-frame-holder">
-              <iframe width="100%" height="300" style="border:0; border-radius: 15px;" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDhJlqq5Um06PGsIFjNo4hRIjV2CRQisTQ&maptype=roadmap&zoom=11&origin=Leavenworth%2C+Kansas&destination=High+Prairie+Church&mode=driving&units=metric"></iframe>
-            </div>
-            <div class="map-helper-box">
-              <p>Click "More Options" and enter your address to find directions!</p>
-            </div>
-          </div>
-
-          <!-- Right: About Our Location Box -->
-          <div class="location-info-col">
-            <div class="location-info-box">
-              <h4>About Our Location</h4>
-              <p>High Prairie Church is located 7 miles west of Lansing, Kansas, and 9 miles west of downtown Leavenworth. Out under the broad prairie sky, surrounded by rolling hills, the church seems to be far away from the hustle and bustle of towns and cities. Yet it is only a few minutes away. Access is easy via Springdale Road from Leavenworth and Eisenhower Road from Lansing.</p>
-            </div>
-          </div>
+        <!-- Segue Wave: curves up from bottom with lighter blue -->
+        <div class="pastor-wave-bottom">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+            <path fill="var(--pagelayer-color-header-blue)" d="M790.5,93.1c-59.3-5.3-116.8-18-192.6-50c-29.6-12.7-76.9-31-100.5-35.9c-23.6-4.9-52.6-7.8-75.5-5.3c-10.2,1.1-22.6,1.4-50.1,7.4c-27.2,6.3-58.2,16.6-79.4,24.7c-41.3,15.9-94.9,21.9-134,22.6C72,58.2,0,25.8,0,25.8V100h1000V65.3c0,0-51.5,19.4-106.2,25.7C839.5,97,814.1,95.2,790.5,93.1z"></path>
+          </svg>
         </div>
       </section>
 
     </div>
 
-    <!-- Right Column: Sticky Sidebar (Desktop Only) -->
-    <aside class="desktop-sticky-sidebar">
+    <!-- Right Column: Hero Sidebar (Desktop Only - Scoped to Hero Area) -->
+    <aside class="hero-sidebar">
       <div class="sidebar-inner">
 
         <!-- Location Box -->
@@ -356,43 +133,267 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   </div>
 
+  <!-- Wave Separator: Lighter Blue Segue into Get to Know Us -->
+  <div class="wave-divider wave-to-sky">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+      <path fill="#afc9f1" d="M421.9,6.5c22.6-2.5,51.5,0.4,75.5,5.3c23.6,4.9,70.9,23.5,100.5,35.7c75.8,32.2,133.7,44.5,192.6,49.7c23.6,2.1,48.7,3.5,103.4-2.5c54.7-6,106.2-25.6,106.2-25.6V0H0v30.3c0,0,72,32.6,158.4,30.5c39.2-0.7,92.8-6.7,134-22.4c21.2-8.1,52.2-18.2,79.7-24.2C399.3,7.9,411.6,7.5,421.9,6.5z"></path>
+    </svg>
+  </div>
+
+  <!-- Mobile/Tablet Interactive Tabs (Visible only on <= 768px) -->
+  <section class="mobile-tabs-section">
+    <div class="tabs-holder">
+      <button class="tablink active" data-tab="tab-times">Times</button>
+      <button class="tablink" data-tab="tab-location">Location</button>
+      <button class="tablink" data-tab="tab-livestream">Livestream</button>
+      <button class="tablink" data-tab="tab-contact">Contact Us</button>
+    </div>
+
+    <div class="tabs-body">
+      <!-- Tab 1: Times -->
+      <div id="tab-times" class="tab-pane active">
+        <div class="times-schedule-grid">
+          <div class="schedule-day">
+            <p class="day-heading"><strong>Sunday</strong></p>
+            <p class="schedule-item">Sunday School - 9:30 AM</p>
+            <p class="schedule-item">Morning Worship Service - 10:45 AM</p>
+            <p class="schedule-item">Evening Bible Study - 6:00 PM</p>
+            <p class="schedule-item">Teen Club - 6:00 PM</p>
+          </div>
+          <div class="schedule-day">
+            <p class="day-heading"><strong>Monday</strong></p>
+            <p class="schedule-item">Men's Bible Study - 6:30 PM</p>
+            <p class="day-heading" style="margin-top: 10px;"><strong>Wednesday</strong></p>
+            <p class="schedule-item">Ladies Bible Study - 9:30 AM</p>
+            <p class="schedule-item">Choir Practice - 6:30 PM</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab 2: Location -->
+      <div id="tab-location" class="tab-pane">
+        <p style="text-align: center; font-weight: 400; margin-bottom: 12px;">
+          26480 187th Street, Leavenworth KS, 66048.<br />
+          At the intersection of Eisenhower and 187th Street.
+        </p>
+        <div class="tab-map-wrap">
+          <iframe width="100%" height="220" style="border:0; border-radius: 10px;" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/place?key=AIzaSyDhJlqq5Um06PGsIFjNo4hRIjV2CRQisTQ&maptype=roadmap&zoom=10&q=High+Prairie+Church"></iframe>
+        </div>
+      </div>
+
+      <!-- Tab 3: Livestream -->
+      <div id="tab-livestream" class="tab-pane" style="text-align: center;">
+        <p>Catch Pastor Vern’s Sunday message on YouTube.</p>
+        <div class="tab-video-wrap">
+          <iframe width="100%" height="200" src="https://www.youtube.com/embed/0htUpbXk074?si=XPNZyVZ2wYAABidA" title="YouTube video player" frameborder="0" allowfullscreen style="border-radius: 10px; max-width: 380px;"></iframe>
+        </div>
+        <p style="margin-top: 10px; font-size: 14px;">Previous messages on <a href="https://www.facebook.com/HPCLeavenworth/" target="_blank" rel="noopener">Facebook</a>.</p>
+      </div>
+
+      <!-- Tab 4: Contact Us -->
+      <div id="tab-contact" class="tab-pane" style="text-align: center;">
+        <p style="font-size: 18px; margin-bottom: 8px;">
+          📞 <a href="tel:9137271576">(913) 727-1576</a>
+        </p>
+        <p style="font-size: 16px;">
+          ✉️ <a href="mailto:webmaster@highprairiechurch.org">webmaster@highprairiechurch.org</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Seasonal Spotlight Feature Card (Auto-managed by date/season) -->
+  <SeasonalSpotlight />
+
+  <!-- Section 3 & 4: Get to Know Us & 9 Service Photo Cards with Layered Background Waves -->
+  <section class="cards-section">
+    <!-- Section 3: "Get to Know Us" Header -->
+    <div class="get-to-know-header">
+      <h2 class="section-title">Get to Know Us</h2>
+    </div>
+
+    <div class="cards-grid">
+
+      <!-- Card 1: Our Beliefs -->
+      <div class="service-card">
+        <div class="service-card-img-wrap">
+          <img src={`${base}/images/gallery1-6.jpg`} alt="Our Beliefs" class="service-card-img" />
+        </div>
+        <div class="service-card-content">
+          <h3>Our Beliefs</h3>
+          <p>What our church believes in and sees as our purpose</p>
+        </div>
+        <a href={`${base}/about/#beliefs`} class="service-card-link" aria-label="Our Beliefs"></a>
+      </div>
+
+      <!-- Card 2: Our History -->
+      <div class="service-card">
+        <div class="service-card-img-wrap">
+          <img src={`${base}/images/Sunset.church.jpg`} alt="Our History" class="service-card-img" />
+        </div>
+        <div class="service-card-content">
+          <h3>Our History</h3>
+          <p>Serving Leavenworth County since 1861!</p>
+        </div>
+        <a href={`${base}/about/#history`} class="service-card-link" aria-label="Our History"></a>
+      </div>
+
+      <!-- Card 3: Our Staff -->
+      <div class="service-card">
+        <div class="service-card-img-wrap">
+          <img src={`${base}/images/Staff.jpg`} alt="Our Staff" class="service-card-img" />
+        </div>
+        <div class="service-card-content">
+          <h3>Our Staff</h3>
+          <p>Meet our Pastors and other staff, eager to serve you.</p>
+        </div>
+        <a href={`${base}/about/#staff`} class="service-card-link" aria-label="Our Staff"></a>
+      </div>
+
+      <!-- Card 4: Sermons -->
+      <div class="service-card">
+        <div class="service-card-img-wrap">
+          <img src={`${base}/images/gallery1-5.jpg`} alt="Sermons" class="service-card-img" />
+        </div>
+        <div class="service-card-content">
+          <h3>Sermons</h3>
+          <p>Library of past sermons preached at our church.</p>
+        </div>
+        <a href={`${base}/sermons/`} class="service-card-link" aria-label="Sermons"></a>
+      </div>
+
+      <!-- Card 5: Education -->
+      <div class="service-card">
+        <div class="service-card-img-wrap">
+          <img src={`${base}/images/gallery1-17.jpg`} alt="Education" class="service-card-img" />
+        </div>
+        <div class="service-card-content">
+          <h3>Education</h3>
+          <p>Variety of Bible study groups and Sunday School classes for adults and young people.</p>
+        </div>
+        <a href={`${base}/programs/#education`} class="service-card-link" aria-label="Education"></a>
+      </div>
+
+      <!-- Card 6: Contact Us -->
+      <div class="service-card">
+        <div class="service-card-img-wrap">
+          <img src={`${base}/images/Adult-Bible-Study-2.jpg`} alt="Contact Us" class="service-card-img" />
+        </div>
+        <div class="service-card-content">
+          <h3>Contact Us</h3>
+          <p>We appreciate all your questions and comments!</p>
+        </div>
+        <a href={`${base}/contact/`} class="service-card-link" aria-label="Contact Us"></a>
+      </div>
+
+      <!-- Card 7: Children & Youth -->
+      <div class="service-card">
+        <div class="service-card-img-wrap">
+          <img src={`${base}/images/kids-1.jpg`} alt="Children & Youth" class="service-card-img" />
+        </div>
+        <div class="service-card-content">
+          <h3>Children &amp; Youth</h3>
+          <p>Teens and kids are VIP's here!</p>
+        </div>
+        <a href={`${base}/programs/#kids`} class="service-card-link" aria-label="Children & Youth"></a>
+      </div>
+
+      <!-- Card 8: Family Activities -->
+      <div class="service-card">
+        <div class="service-card-img-wrap">
+          <img src={`${base}/images/GalleryNew-2.jpg`} alt="Family Activities" class="service-card-img" />
+        </div>
+        <div class="service-card-content">
+          <h3>Family Activities</h3>
+          <p>Fun and fellowship!</p>
+        </div>
+        <a href={`${base}/programs/#activities`} class="service-card-link" aria-label="Family Activities"></a>
+      </div>
+
+      <!-- Card 9: Missions -->
+      <div class="service-card">
+        <div class="service-card-img-wrap">
+          <img src={`${base}/images/Activites.png`} alt="Missions" class="service-card-img" />
+        </div>
+        <div class="service-card-content">
+          <h3>Missions</h3>
+          <p>Providing outreach and support.</p>
+        </div>
+        <a href={`${base}/programs/#missions`} class="service-card-link" aria-label="Missions"></a>
+      </div>
+
+    </div>
+
+    <!-- Bottom Background Wave: Olive/Meadow Green rolling behind lower cards -->
+    <div class="cards-bg-wave-bottom">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 100" preserveAspectRatio="none">
+        <path fill="var(--pagelayer-color-primary)" d="M790.5,93.1c-59.3-5.3-116.8-18-192.6-50c-29.6-12.7-76.9-31-100.5-35.9c-23.6-4.9-52.6-7.8-75.5-5.3c-10.2,1.1-22.6,1.4-50.1,7.4c-27.2,6.3-58.2,16.6-79.4,24.7c-41.3,15.9-94.9,21.9-134,22.6C72,58.2,0,25.8,0,25.8V100h1000V65.3c0,0-51.5,19.4-106.2,25.7C839.5,97,814.1,95.2,790.5,93.1z"></path>
+      </svg>
+    </div>
+  </section>
+
+
+  <!-- Section 5: Location & Directions -->
+  <section class="location-section">
+    <div class="location-bg-overlay" style={`background-image: url('${base}/images/gallery1-8.jpg');`}></div>
+    <div class="location-inner-grid">
+      <!-- Left: Google Map directions -->
+      <div class="location-map-col">
+        <div class="map-frame-holder">
+          <iframe width="100%" height="300" style="border:0; border-radius: 15px;" loading="lazy" allowfullscreen src="https://www.google.com/maps/embed/v1/directions?key=AIzaSyDhJlqq5Um06PGsIFjNo4hRIjV2CRQisTQ&maptype=roadmap&zoom=11&origin=Leavenworth%2C+Kansas&destination=High+Prairie+Church&mode=driving&units=metric"></iframe>
+        </div>
+        <div class="map-helper-box">
+          <p>Click "More Options" and enter your address to find directions!</p>
+        </div>
+      </div>
+
+      <!-- Right: About Our Location Box -->
+      <div class="location-info-col">
+        <div class="location-info-box">
+          <h4>About Our Location</h4>
+          <p>High Prairie Church is located 7 miles west of Lansing, Kansas, and 9 miles west of downtown Leavenworth. Out under the broad prairie sky, surrounded by rolling hills, the church seems to be far away from the hustle and bustle of towns and cities. Yet it is only a few minutes away. Access is easy via Springdale Road from Leavenworth and Eisenhower Road from Lansing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </Layout>
 
 <style>
-  /* Two Column Main Layout */
-  .site-main-layout {
+  /* Hero Two-Column Layout (Desktop Only - Scoped to Hero Area) */
+  .hero-layout-wrapper {
     display: flex;
     position: relative;
     width: 100%;
     align-items: stretch;
   }
 
-  .main-content-stream {
+  .hero-content-stream {
     flex: 1;
     min-width: 0;
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--pagelayer-color-secondary);
   }
 
-  /* Desktop Sticky Right Sidebar */
-  .desktop-sticky-sidebar {
-    width: 15rem;
-    min-width: 15rem;
+  /* Scoped Hero Right Sidebar (Desktop Only) */
+  .hero-sidebar {
+    width: 15.5rem;
+    min-width: 15.5rem;
     background-color: var(--pagelayer-color-header-blue);
-    position: sticky;
-    top: 0;
-    align-self: flex-start;
-    height: 100vh;
-    overflow-y: auto;
-    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.06);
-    z-index: 55;
-    padding: 30px 16px;
-    border-left: 1px solid rgba(0, 0, 0, 0.05);
+    padding: 30px 16px 24px 16px;
+    display: flex;
+    flex-direction: column;
+    align-self: stretch;
+    z-index: 20;
   }
 
   .sidebar-inner {
+    position: sticky;
+    top: 24px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 18px;
     text-align: center;
   }
 
@@ -529,20 +530,36 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   .pastor-welcome-section {
     background-color: var(--pagelayer-color-secondary);
     position: relative;
-    padding: 40px 3em 30px 3em;
+    padding: 50px 3em 110px 3em;
+    overflow: hidden;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
-  .pastor-parallax-banner {
+  .pastor-wave-bottom {
+    position: absolute;
+    bottom: -1px;
+    left: 0;
     width: 100%;
-    text-align: center;
-    margin-bottom: 30px;
+    line-height: 0;
+    pointer-events: none;
+    z-index: 1;
   }
 
-  .banner-img {
-    width: 100%;
-    max-height: 180px;
-    object-fit: cover;
-    border-radius: 10px;
+  .pastor-wave-bottom svg {
+    display: block;
+    width: 114%;
+    height: 90px;
+    transform: rotateY(180deg);
+  }
+
+  .wave-to-secondary {
+    background-color: var(--pagelayer-color-bg-light);
+    margin-top: -1px;
+    position: relative;
+    z-index: 2;
   }
 
   .pastor-content-container {
@@ -551,10 +568,13 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     display: flex;
     align-items: center;
     gap: 40px;
+    position: relative;
+    z-index: 3;
   }
 
   .pastor-img-col {
     flex: 0.8;
+    text-align: center;
   }
 
   .pastor-img {
@@ -565,16 +585,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   }
 
   .pastor-text-col {
-    flex: 1.4;
+    flex: 1.2;
   }
 
   .pastor-tagline-1,
   .pastor-tagline-2 {
-    font-family: var(--font-body);
-    font-size: 2.2rem;
-    font-weight: 400;
+    font-family: var(--font-heading);
+    font-size: 2.4rem;
+    font-weight: 700;
+    line-height: 1.1;
     color: var(--color-text);
-    line-height: 1.2;
     margin: 0;
   }
 
@@ -592,6 +612,13 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 
   .pastor-signature {
     font-weight: 600;
+  }
+
+  .wave-to-sky {
+    background-color: var(--pagelayer-color-bg-light);
+    margin-top: -1px;
+    position: relative;
+    z-index: 2;
   }
 
   /* Mobile Tabs Section (Hidden on Desktop) */
@@ -657,10 +684,35 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     color: #333;
   }
 
-  /* Section 3: Get to Know Us Header */
-  .get-to-know-header {
+  /* Section 3 & 4: Get to Know Us & 9 Service Cards with Layered Background Waves */
+  .cards-section {
+    position: relative;
     background-color: var(--pagelayer-color-bg-light);
-    padding: 40px 20px 10px 20px;
+    padding: 40px 3em 160px 3em;
+    overflow: hidden;
+  }
+
+  .cards-bg-wave-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    line-height: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .cards-bg-wave-bottom svg {
+    display: block;
+    width: 114%;
+    height: 320px;
+    transform: rotateY(180deg);
+  }
+
+  .get-to-know-header {
+    position: relative;
+    z-index: 5;
+    padding: 10px 20px 35px 20px;
     text-align: center;
   }
 
@@ -672,24 +724,20 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     margin: 0;
   }
 
-  /* Section 4: 9 Service Cards */
-  .cards-section {
-    background-color: var(--pagelayer-color-bg-light);
-    padding: 20px 3em 50px 3em;
-  }
-
   .cards-grid {
     max-width: 1100px;
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 28px;
+    position: relative;
+    z-index: 5;
   }
 
   .service-card {
-    background-color: var(--pagelayer-color-bg-light);
+    background-color: var(--color-bg-card, #ffffff);
     border-radius: 15px;
-    box-shadow: 0px 2px 10px 0px rgba(0, 0, 0, 0.16);
+    box-shadow: 0px 4px 15px 0px rgba(0, 0, 0, 0.12);
     padding: 16px;
     position: relative;
     text-align: center;
@@ -703,8 +751,9 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   .service-card:hover {
     border-color: #f2ad48;
     transform: translateY(-4px);
-    box-shadow: 0px 6px 18px 0px rgba(0, 0, 0, 0.22);
+    box-shadow: 0px 8px 24px 0px rgba(0, 0, 0, 0.18);
   }
+
 
   .service-card-img-wrap {
     width: 100%;
@@ -751,6 +800,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     position: relative;
     padding: 60px 3em;
     box-shadow: 0px 1.5px 15px 0px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
   }
 
   .location-bg-overlay {
@@ -762,7 +812,7 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
-    opacity: 0.15;
+    opacity: 1;
     pointer-events: none;
   }
 
@@ -832,8 +882,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
   }
 
   @media (max-width: 768px) {
-    .desktop-sticky-sidebar {
+    .hero-sidebar {
       display: none;
+    }
+
+    .hero-layout-wrapper {
+      display: block;
+    }
+
+    .hero-content-stream {
+      display: block;
     }
 
     .mobile-tabs-section {
@@ -855,7 +913,13 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     }
 
     .pastor-welcome-section {
-      padding: 30px 1.2em;
+      flex: none;
+      display: block;
+      padding: 30px 1.2em 70px 1.2em;
+    }
+
+    .pastor-wave-bottom svg {
+      height: 50px;
     }
 
     .pastor-content-container {
@@ -870,7 +934,11 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     }
 
     .cards-section {
-      padding: 20px 1.2em;
+      padding: 20px 1.2em 100px 1.2em;
+    }
+
+    .cards-bg-wave-bottom svg {
+      height: 200px;
     }
 
     .cards-grid {

@@ -36,20 +36,26 @@ if ($repoRoot) {
     Set-Location $repoRoot
 }
 
-# 2. Build the Astro static site
-Write-Host "`n[1/3] Building static website..." -ForegroundColor Green
-& npm run build
+# 2. Optimize images if needed
+if (Test-Path "scripts\optimize-images.mjs") {
+    Write-Host "`n[1/4] Checking and optimizing images..." -ForegroundColor Green
+    & node scripts/optimize-images.mjs
+}
+
+# 3. Build the Astro static site
+Write-Host "`n[2/4] Building static website..." -ForegroundColor Green
+& npm.cmd run build
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Build failed with exit code $LASTEXITCODE."
     exit $LASTEXITCODE
 }
 
-# 3. Determine URL
+# 4. Determine URL
 $siteUrl = "http://127.0.0.1:$Port/highprairiechurch/"
 
-# 4. Launch in default browser
+# 5. Launch in default browser
 if (-not $NoOpen) {
-    Write-Host "`n[2/3] Opening default browser at $siteUrl..." -ForegroundColor Green
+    Write-Host "`n[3/4] Opening default browser at $siteUrl..." -ForegroundColor Green
     try {
         Start-Process $siteUrl
     } catch {
@@ -57,9 +63,9 @@ if (-not $NoOpen) {
     }
 }
 
-# 5. Launch preview server
-Write-Host "`n[3/3] Starting preview server on port $Port..." -ForegroundColor Green
+# 6. Launch preview server
+Write-Host "`n[4/4] Starting preview server on port $Port..." -ForegroundColor Green
 Write-Host "Serving at: $siteUrl" -ForegroundColor Cyan
 Write-Host "Press Ctrl+C to stop the server.`n" -ForegroundColor Gray
 
-& npm run preview -- --host 127.0.0.1 --port $Port
+& npm.cmd run preview -- --host 127.0.0.1 --port $Port

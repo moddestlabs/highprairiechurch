@@ -1,0 +1,671 @@
+---
+interface Props {
+  base?: string;
+}
+
+const { base = import.meta.env.BASE_URL.replace(/\/$/, '') } = Astro.props;
+
+interface MissionHotspot {
+  id: string;
+  cardIds: string[];
+  name: string;
+  location: string;
+  icon: 'home' | 'church' | 'map-pin' | 'tools' | 'comment' | 'heart' | 'book' | 'cross' | 'bullhorn';
+  tooltipPos: 'top' | 'bottom' | 'right' | 'left';
+  top: string;
+  left: string;
+}
+
+const hotspots: MissionHotspot[] = [
+  {
+    id: "pin-cfindia",
+    cardIds: ["mission-cfindia"],
+    name: "Children's Fellowship of India",
+    location: "Naya Akola, India",
+    icon: "home",
+    tooltipPos: "bottom",
+    top: "42%",
+    left: "71%"
+  },
+  {
+    id: "pin-welkner",
+    cardIds: ["mission-welkner"],
+    name: "John & Lisa Welkner",
+    location: "Dubai, United Arab Emirates",
+    icon: "church",
+    tooltipPos: "bottom",
+    top: "42%",
+    left: "63%"
+  },
+  {
+    id: "pin-kc",
+    cardIds: ["mission-avant", "mission-lighthouse"],
+    name: "Avant Ministries & The Light House",
+    location: "Kansas City, Missouri",
+    icon: "map-pin",
+    tooltipPos: "right",
+    top: "29%",
+    left: "16%"
+  },
+  {
+    id: "pin-wright",
+    cardIds: ["mission-wright"],
+    name: "Paul & Beth Wright",
+    location: "Mendoza, Argentina",
+    icon: "tools",
+    tooltipPos: "top",
+    top: "79%",
+    left: "22%"
+  },
+  {
+    id: "pin-wedel",
+    cardIds: ["mission-wedel"],
+    name: "Doug & Mona Wedel",
+    location: "Magog, Canada",
+    icon: "comment",
+    tooltipPos: "bottom",
+    top: "15%",
+    left: "24%"
+  },
+  {
+    id: "pin-sparrow",
+    cardIds: ["mission-sparrow"],
+    name: "Sparrow Women's Clinic",
+    location: "Leavenworth, Kansas",
+    icon: "heart",
+    tooltipPos: "bottom",
+    top: "26%",
+    left: "15%"
+  },
+  {
+    id: "pin-scheele",
+    cardIds: ["mission-scheele"],
+    name: "Paul & Wendy Scheele",
+    location: "Manhattan, Kansas",
+    icon: "book",
+    tooltipPos: "bottom",
+    top: "26%",
+    left: "13%"
+  },
+  {
+    id: "pin-dallas",
+    cardIds: ["mission-martens", "mission-marsters"],
+    name: "Brian & Jennifer Marsters / Michael & Martha Martens",
+    location: "Dallas & Mesquite, Texas",
+    icon: "cross",
+    tooltipPos: "bottom",
+    top: "32%",
+    left: "13%"
+  },
+  {
+    id: "pin-lewis",
+    cardIds: ["mission-lewis"],
+    name: "Greg & Shari Lewis",
+    location: "Glendale, Arizona",
+    icon: "bullhorn",
+    tooltipPos: "bottom",
+    top: "33%",
+    left: "10%"
+  }
+];
+---
+
+<div class="interactive-missions-map" id="missionsMap">
+  <!-- Map Image Container with Aspect Ratio preservation -->
+  <div class="map-viewport">
+    <div class="map-picture">
+      <img
+        src={`${base}/images/Group-4-2.jpg`}
+        alt="World map highlighting High Prairie Church supported mission locations around the globe"
+        class="map-base-img"
+        loading="lazy"
+        width="1600"
+        height="799"
+      />
+    </div>
+
+    <!-- Overlay Pins -->
+    <div class="map-pins-layer" aria-label="Mission locations map">
+      {hotspots.map((pin) => (
+        <button
+          type="button"
+          class={`map-pin pin-tooltip-${pin.tooltipPos}`}
+          id={pin.id}
+          data-card-ids={pin.cardIds.join(',')}
+          aria-label={`${pin.name} - ${pin.location}`}
+          style={`--pin-top: ${pin.top}; --pin-left: ${pin.left};`}
+        >
+          <span class="pin-beacon" aria-hidden="true"></span>
+          <span class="pin-icon" aria-hidden="true">
+            {pin.icon === 'home' && (
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+              </svg>
+            )}
+            {pin.icon === 'church' && (
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M18 12.2V9l-5-4.17V3h-2v1.83L6 9v3.2L2 14v7h7v-5h6v5h7v-7l-4-1.8zM12 6.5l3 2.5v1.2l-3-1.5-3 1.5V9l3-2.5z" />
+                <path d="M11 0h2v4h-2z" />
+                <path d="M9.5 1.5h5v2h-5z" />
+              </svg>
+            )}
+            {pin.icon === 'map-pin' && (
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 0 1 0-5 2.5 2.5 0 0 1 0 5z" />
+              </svg>
+            )}
+            {pin.icon === 'tools' && (
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.3-2.3c.5-.4.5-1.1.1-1.4z" />
+              </svg>
+            )}
+            {pin.icon === 'comment' && (
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M21.99 4c0-1.1-.89-2-1.99-2H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h14l4 4-.01-18zM18 14H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z" />
+              </svg>
+            )}
+            {pin.icon === 'heart' && (
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+              </svg>
+            )}
+            {pin.icon === 'book' && (
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z" />
+              </svg>
+            )}
+            {pin.icon === 'cross' && (
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M9 2h6v5h5v6h-5v9H9v-9H4V7h5V2z" />
+              </svg>
+            )}
+            {pin.icon === 'bullhorn' && (
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+                <path d="M4 10v4c0 .55.45 1 1 1h3l5 4V5L8 9H5c-.55 0-1 .45-1 1zm14.5 2c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02zM16 4.23v2.06c2.89.86 5 3.54 5 6.71s-2.11 5.85-5 6.71v2.06c4.01-.91 7-4.49 7-8.77s-2.99-7.86-7-8.77z" />
+              </svg>
+            )}
+          </span>
+
+          <!-- Tooltip Popup matching Pagelayer theme -->
+          <span class="pin-tooltip" role="tooltip">
+            <span class="tooltip-title">{pin.name}</span>
+            <span class="tooltip-location">{pin.location}</span>
+            <span class="tooltip-action">Click to view details ↓</span>
+          </span>
+        </button>
+      ))}
+    </div>
+  </div>
+
+  <div class="map-caption">
+    <p>
+      <span class="caption-pulse-indicator"></span>
+      Click any pin on the map to jump directly to that mission's details below.
+    </p>
+  </div>
+</div>
+
+<style>
+  .interactive-missions-map {
+    margin-bottom: 40px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 20px 16px 16px 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid rgba(0, 0, 0, 0.06);
+    overflow: visible;
+  }
+
+  .map-viewport {
+    position: relative;
+    width: 100%;
+    border-radius: 12px;
+    overflow: visible;
+    background: #dbe7ec;
+    line-height: 0;
+  }
+
+  .map-picture {
+    display: block;
+    width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+  }
+
+  .map-base-img {
+    width: 100%;
+    height: auto;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+    border-radius: 12px;
+  }
+
+  .map-pins-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+  }
+
+  /* Hotspot Pin Button */
+  .map-pin {
+    position: absolute;
+    top: var(--pin-top);
+    left: var(--pin-left);
+    transform: translate(-50%, -50%);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--pagelayer-color-teal, #89c1bd);
+    border: 2px solid #ffffff;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    cursor: pointer;
+    pointer-events: auto;
+    z-index: 10;
+    transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s, box-shadow 0.2s, z-index 0.1s;
+    outline: none;
+  }
+
+  .map-pin:hover,
+  .map-pin:focus-visible,
+  .map-pin.is-active {
+    transform: translate(-50%, -50%) scale(1.22);
+    background: #6aa8a3;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.45);
+    z-index: 25;
+  }
+
+  .map-pin:focus-visible {
+    ring: 3px solid var(--pagelayer-color-accent, #89b3f1);
+  }
+
+  /* Pulsing Radar Ring */
+  .pin-beacon {
+    position: absolute;
+    top: -6px;
+    left: -6px;
+    right: -6px;
+    bottom: -6px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    background: rgba(255, 255, 255, 0.4);
+    pointer-events: none;
+    animation: hotspot-ripple 2.2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+  }
+
+  .map-pin:hover .pin-beacon,
+  .map-pin:focus-visible .pin-beacon,
+  .map-pin.is-active .pin-beacon {
+    animation-duration: 1.2s;
+    border-color: #ffffff;
+  }
+
+  @keyframes hotspot-ripple {
+    0% {
+      transform: scale(0.85);
+      opacity: 0.9;
+    }
+    60% {
+      transform: scale(1.7);
+      opacity: 0;
+    }
+    100% {
+      transform: scale(1.7);
+      opacity: 0;
+    }
+  }
+
+  .pin-icon {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #1a1b1f;
+  }
+
+  .pin-icon svg {
+    display: block;
+    width: 17px;
+    height: 17px;
+  }
+
+  /* Tooltip Styling */
+  .pin-tooltip {
+    position: absolute;
+    background-color: var(--pagelayer-color-header-blue, #afc9f1);
+    color: #1a1b1f;
+    border-radius: 8px;
+    padding: 8px 12px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.22);
+    min-width: 180px;
+    max-width: 250px;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(6px);
+    transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
+    z-index: 30;
+    text-align: center;
+    line-height: 1.35;
+    font-family: var(--font-body, 'Rubik', sans-serif);
+  }
+
+  .tooltip-title {
+    display: block;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #1a1b1f;
+    margin-bottom: 2px;
+  }
+
+  .tooltip-location {
+    display: block;
+    font-size: 12px;
+    font-weight: 500;
+    color: #2c3e50;
+    margin-bottom: 4px;
+  }
+
+  .tooltip-action {
+    display: inline-block;
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: #153b6a;
+    border-top: 1px dashed rgba(26, 27, 31, 0.2);
+    padding-top: 3px;
+    margin-top: 2px;
+  }
+
+  /* Tooltip Directions */
+  /* Top */
+  .pin-tooltip-top .pin-tooltip {
+    bottom: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%) translateY(4px);
+  }
+  .pin-tooltip-top .pin-tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: var(--pagelayer-color-header-blue, #afc9f1) transparent transparent transparent;
+  }
+
+  /* Bottom */
+  .pin-tooltip-bottom .pin-tooltip {
+    top: calc(100% + 12px);
+    left: 50%;
+    transform: translateX(-50%) translateY(-4px);
+  }
+  .pin-tooltip-bottom .pin-tooltip::after {
+    content: "";
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent var(--pagelayer-color-header-blue, #afc9f1) transparent;
+  }
+
+  /* Right */
+  .pin-tooltip-right .pin-tooltip {
+    left: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%) translateX(-4px);
+  }
+  .pin-tooltip-right .pin-tooltip::after {
+    content: "";
+    position: absolute;
+    right: 100%;
+    top: 50%;
+    margin-top: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent var(--pagelayer-color-header-blue, #afc9f1) transparent transparent;
+  }
+
+  /* Left */
+  .pin-tooltip-left .pin-tooltip {
+    right: calc(100% + 12px);
+    top: 50%;
+    transform: translateY(-50%) translateX(4px);
+  }
+  .pin-tooltip-left .pin-tooltip::after {
+    content: "";
+    position: absolute;
+    left: 100%;
+    top: 50%;
+    margin-top: -6px;
+    border-width: 6px;
+    border-style: solid;
+    border-color: transparent transparent transparent var(--pagelayer-color-header-blue, #afc9f1);
+  }
+
+  /* Show Tooltip on Hover / Focus / Active */
+  .map-pin:hover .pin-tooltip,
+  .map-pin:focus-visible .pin-tooltip,
+  .map-pin.is-active .pin-tooltip {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .pin-tooltip-top:hover .pin-tooltip,
+  .pin-tooltip-top:focus-visible .pin-tooltip,
+  .pin-tooltip-top.is-active .pin-tooltip {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .pin-tooltip-bottom:hover .pin-tooltip,
+  .pin-tooltip-bottom:focus-visible .pin-tooltip,
+  .pin-tooltip-bottom.is-active .pin-tooltip {
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .pin-tooltip-right:hover .pin-tooltip,
+  .pin-tooltip-right:focus-visible .pin-tooltip,
+  .pin-tooltip-right.is-active .pin-tooltip {
+    transform: translateY(-50%) translateX(0);
+  }
+
+  .pin-tooltip-left:hover .pin-tooltip,
+  .pin-tooltip-left:focus-visible .pin-tooltip,
+  .pin-tooltip-left.is-active .pin-tooltip {
+    transform: translateY(-50%) translateX(0);
+  }
+
+  /* Map Caption & Instructions */
+  .map-caption {
+    margin-top: 12px;
+    text-align: center;
+    font-size: 14px;
+    color: #555555;
+  }
+
+  .map-caption p {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .caption-pulse-indicator {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--pagelayer-color-teal, #89c1bd);
+    box-shadow: 0 0 0 3px rgba(137, 193, 189, 0.35);
+  }
+
+  /* Mobile Responsive Coordinates & Sizes */
+  @media (max-width: 768px) {
+    .interactive-missions-map {
+      padding: 12px;
+      border-radius: 12px;
+    }
+
+    .map-pin {
+      width: 28px;
+      height: 28px;
+      border-width: 1.5px;
+    }
+
+    .pin-icon svg {
+      width: 13px;
+      height: 13px;
+    }
+
+    .pin-beacon {
+      top: -4px;
+      left: -4px;
+      right: -4px;
+      bottom: -4px;
+    }
+
+    .pin-tooltip {
+      font-size: 11px;
+      padding: 6px 10px;
+      min-width: 130px;
+      max-width: 190px;
+    }
+
+    .tooltip-title {
+      font-size: 12px;
+    }
+
+    .tooltip-location {
+      font-size: 10.5px;
+    }
+
+    .tooltip-action {
+      display: none; /* Keep tooltip compact on small mobile screens */
+    }
+
+    /* Edge adjustment for Glendale near the left edge */
+    #pin-lewis .pin-tooltip {
+      left: -6px !important;
+      right: auto !important;
+      transform: translateY(0) !important;
+    }
+    #pin-lewis .pin-tooltip::after {
+      left: 18px !important;
+      right: auto !important;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .map-pin {
+      width: 22px;
+      height: 22px;
+      border-width: 1.5px;
+    }
+
+    .pin-icon svg {
+      width: 10px;
+      height: 10px;
+    }
+
+    .pin-tooltip {
+      min-width: 120px;
+      max-width: 160px;
+      padding: 5px 8px;
+    }
+
+    .tooltip-title {
+      font-size: 11px;
+    }
+
+    .tooltip-location {
+      font-size: 9.5px;
+    }
+  }
+</style>
+
+<script>
+  function initMissionsMap() {
+    const pins = document.querySelectorAll<HTMLButtonElement>('.map-pin');
+    const cards = document.querySelectorAll<HTMLElement>('.mission-profile-card');
+
+    if (!pins.length || !cards.length) return;
+
+    // Pin click: scroll to card and highlight
+    pins.forEach((pin) => {
+      pin.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetIds = (pin.dataset.cardIds || '').split(',').filter(Boolean);
+        if (!targetIds.length) return;
+
+        const firstCard = document.getElementById(targetIds[0]);
+        if (!firstCard) return;
+
+        // Smooth scroll to card
+        firstCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+        // Highlight all target cards
+        targetIds.forEach((id) => {
+          const card = document.getElementById(id);
+          if (card) {
+            card.classList.remove('card-highlight');
+            // trigger reflow
+            void card.offsetWidth;
+            card.classList.add('card-highlight');
+            setTimeout(() => {
+              card.classList.remove('card-highlight');
+            }, 2500);
+          }
+        });
+
+        // Set active state on pin briefly
+        pins.forEach((p) => p.classList.remove('is-active'));
+        pin.classList.add('is-active');
+        setTimeout(() => {
+          pin.classList.remove('is-active');
+        }, 3000);
+      });
+    });
+
+    // Card hover: highlight matching pin on map
+    cards.forEach((card) => {
+      const cardId = card.id;
+      if (!cardId) return;
+
+      // Find matching pin
+      let matchingPin: HTMLButtonElement | null = null;
+      pins.forEach((pin) => {
+        const ids = (pin.dataset.cardIds || '').split(',');
+        if (ids.includes(cardId)) {
+          matchingPin = pin;
+        }
+      });
+
+      if (matchingPin) {
+        card.addEventListener('mouseenter', () => {
+          matchingPin?.classList.add('is-active');
+        });
+        card.addEventListener('mouseleave', () => {
+          matchingPin?.classList.remove('is-active');
+        });
+      }
+    });
+  }
+
+  // Initialize on page load and on view transitions if any
+  document.addEventListener('DOMContentLoaded', initMissionsMap);
+  initMissionsMap();
+</script>
+

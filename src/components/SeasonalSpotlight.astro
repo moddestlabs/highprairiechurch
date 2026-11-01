@@ -1,0 +1,235 @@
+---
+import { getActiveSeason, SEASONS } from '../config/seasons';
+
+const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const buildSeason = getActiveSeason();
+---
+
+<!-- Seasonal Spotlight Section -->
+<section 
+  id="seasonal-spotlight-section" 
+  class="seasonal-spotlight-section"
+  style={buildSeason ? 'display: block;' : 'display: none;'}
+>
+  <div class="seasonal-spotlight-container">
+    {SEASONS.map((season) => {
+      const s = season.spotlight;
+      if (!s) return null;
+      const isCurrent = buildSeason?.id === season.id;
+
+      return (
+        <div 
+          class="seasonal-card"
+          data-season-card={season.id}
+          style={`
+            display: ${isCurrent ? 'block' : 'none'};
+            background-color: ${season.colors.background};
+            border-color: ${season.colors.border};
+            --card-accent: ${season.colors.accent};
+            --card-text-dark: ${season.colors.textDark};
+          `}
+        >
+          <!-- Subtle decorative top badge -->
+          <div class="seasonal-badge">
+            <span class="seasonal-badge-text">{s.tagline}</span>
+          </div>
+
+          <h2 class="seasonal-heading">{s.heading}</h2>
+
+          <!-- Scripture Feature -->
+          <div class="seasonal-scripture-box">
+            <p class="seasonal-scripture-quote">“{s.scripture}”</p>
+            <cite class="seasonal-scripture-ref">— {s.scriptureRef}</cite>
+          </div>
+
+          <p class="seasonal-desc">{s.description}</p>
+
+          <div class="seasonal-actions">
+            <a href={`${base}${s.buttonUrl}`} class="seasonal-btn">
+              {s.buttonText} →
+            </a>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+</section>
+
+<style>
+  .seasonal-spotlight-section {
+    width: 100%;
+    padding: 24px 20px 40px;
+    background-color: var(--pagelayer-color-bg-light, #f0f0f1);
+  }
+
+  .seasonal-spotlight-container {
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .seasonal-card {
+    border-width: 2px;
+    border-style: solid;
+    border-radius: 16px;
+    padding: 36px 32px;
+    text-align: center;
+    position: relative;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.05);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .seasonal-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+  }
+
+  .seasonal-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 16px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.85);
+    border: 1px solid var(--card-accent);
+    margin-bottom: 14px;
+  }
+
+  .seasonal-badge-text {
+    font-family: var(--font-montserrat, 'Montserrat', sans-serif);
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.8px;
+    color: var(--card-accent);
+  }
+
+  .seasonal-heading {
+    font-family: var(--font-heading, 'Crimson Text', serif);
+    font-size: 2.3rem;
+    font-weight: 700;
+    color: var(--card-text-dark, #1a1b1f);
+    margin-bottom: 18px;
+    line-height: 1.2;
+  }
+
+  .seasonal-scripture-box {
+    max-width: 720px;
+    margin: 0 auto 20px auto;
+    padding: 16px 24px;
+    background: rgba(255, 255, 255, 0.7);
+    border-left: 4px solid var(--card-accent);
+    border-radius: 4px 10px 10px 4px;
+  }
+
+  .seasonal-scripture-quote {
+    font-family: var(--font-heading, 'Crimson Text', serif);
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--card-text-dark, #1a1b1f);
+    line-height: 1.45;
+    margin-bottom: 6px;
+  }
+
+  .seasonal-scripture-ref {
+    display: block;
+    font-family: var(--font-body, 'Rubik', sans-serif);
+    font-size: 0.95rem;
+    font-style: normal;
+    font-weight: 600;
+    color: var(--card-accent);
+  }
+
+  .seasonal-desc {
+    font-family: var(--font-body, 'Rubik', sans-serif);
+    color: var(--color-text-muted, #555962);
+    font-size: 1.05rem;
+    line-height: 1.6;
+    max-width: 680px;
+    margin: 0 auto 26px auto;
+  }
+
+  .seasonal-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .seasonal-btn {
+    display: inline-block;
+    background-color: var(--card-accent);
+    color: #ffffff !important;
+    padding: 12px 28px;
+    border-radius: 25px;
+    font-family: var(--font-montserrat, 'Montserrat', sans-serif);
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none !important;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.12);
+    transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .seasonal-btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+  }
+
+  @media (max-width: 768px) {
+    .seasonal-spotlight-section {
+      padding: 16px 14px 30px;
+    }
+    .seasonal-card {
+      padding: 26px 18px;
+    }
+    .seasonal-heading {
+      font-size: 1.85rem;
+    }
+    .seasonal-scripture-quote {
+      font-size: 1.2rem;
+    }
+  }
+</style>
+
+<script>
+  import { SEASONS, isDateInSeason } from '../config/seasons';
+
+  function updateSeasonalSpotlight() {
+    const section = document.getElementById('seasonal-spotlight-section');
+    if (!section) return;
+
+    // Check preview override ?season=autumn | ?season=christmas | ?season=none
+    const params = new URLSearchParams(window.location.search);
+    const previewParam = params.get('season');
+
+    let activeSeason = null;
+
+    if (previewParam) {
+      if (previewParam !== 'none') {
+        activeSeason = SEASONS.find(s => s.id === previewParam) || null;
+      }
+    } else {
+      const now = new Date();
+      const month = now.getMonth() + 1;
+      const day = now.getDate();
+      activeSeason = SEASONS.find(s => isDateInSeason(month, day, s.start, s.end)) || null;
+    }
+
+    if (!activeSeason || !activeSeason.spotlight) {
+      section.style.display = 'none';
+      return;
+    }
+
+    section.style.display = 'block';
+
+    const cards = section.querySelectorAll('[data-season-card]');
+    cards.forEach((card) => {
+      if (card instanceof HTMLElement) {
+        card.style.display = card.getAttribute('data-season-card') === activeSeason?.id ? 'block' : 'none';
+      }
+    });
+  }
+
+  updateSeasonalSpotlight();
+</script>
+
