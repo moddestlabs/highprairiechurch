@@ -11,6 +11,9 @@ export interface SeasonConfig {
     textDark: string;    // Text color for readability
   };
   utilityBar?: {
+    enabled?: boolean;
+    start?: { month: number; day: number }; // Optional custom window for banner
+    end?: { month: number; day: number };
     icon: string;
     text: string;
     linkText: string;
@@ -40,6 +43,9 @@ export const SEASONS: SeasonConfig[] = [
       textDark: '#4a2c06',          // Warm dark brown
     },
     utilityBar: {
+      // Hidden until the week of Thanksgiving (Nov 20 to Nov 28)
+      start: { month: 11, day: 20 },
+      end: { month: 11, day: 28 },
       icon: '🌾',
       text: 'Thanksgiving Praise & Fellowship Service — Sunday, Nov 22 at 6:00 PM',
       linkText: 'Learn More →',
@@ -67,6 +73,9 @@ export const SEASONS: SeasonConfig[] = [
       textDark: '#1c3628',          // Deep pine forest
     },
     utilityBar: {
+      // Only show during Christmas week (Dec 15 to Dec 25)
+      start: { month: 12, day: 15 },
+      end: { month: 12, day: 25 },
       icon: '🎄',
       text: 'Celebrate Advent with us! Christmas Eve Candlelight Service — Dec 24 at 6:00 PM',
       linkText: 'Service Details →',
@@ -100,6 +109,19 @@ export function isDateInSeason(month: number, day: number, start: { month: numbe
 }
 
 /**
+ * Checks whether the utility banner should be active for a given season on a date.
+ */
+export function isUtilityBarActive(season: SeasonConfig, date = new Date()): boolean {
+  if (!season.utilityBar) return false;
+  if (season.utilityBar.enabled === false) return false;
+  const start = season.utilityBar.start || season.start;
+  const end = season.utilityBar.end || season.end;
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return isDateInSeason(month, day, start, end);
+}
+
+/**
  * Returns the currently active season based on a date.
  * Defaults to current date.
  */
@@ -111,4 +133,3 @@ export function getActiveSeason(date = new Date()): SeasonConfig | null {
     SEASONS.find((season) => isDateInSeason(month, day, season.start, season.end)) || null
   );
 }
-

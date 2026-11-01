@@ -1,8 +1,9 @@
 ---
-import { getActiveSeason, SEASONS } from '../config/seasons';
+import { getActiveSeason, isUtilityBarActive, SEASONS } from '../config/seasons';
 
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
 const buildSeason = getActiveSeason();
+const isBarActive = buildSeason ? isUtilityBarActive(buildSeason) : false;
 ---
 
 <!-- Seasonal Utility Ribbon (Top of page) -->
@@ -10,14 +11,14 @@ const buildSeason = getActiveSeason();
   id="seasonal-utility-bar" 
   class="seasonal-utility-bar"
   data-active-season={buildSeason?.id || 'none'}
-  style={buildSeason ? `display: block; background-color: ${buildSeason.colors.accent};` : 'display: none;'}
+  style={isBarActive && buildSeason ? `display: block; background-color: ${buildSeason.colors.accent};` : 'display: none;'}
 >
   <div class="seasonal-utility-inner">
     {SEASONS.map((season) => (
       <div 
         class="seasonal-msg" 
         data-season-content={season.id}
-        style={buildSeason?.id === season.id ? 'display: flex;' : 'display: none;'}
+        style={isBarActive && buildSeason?.id === season.id ? 'display: flex;' : 'display: none;'}
       >
         <span class="seasonal-icon" aria-hidden="true">{season.utilityBar?.icon}</span>
         <span class="seasonal-text">{season.utilityBar?.text}</span>
@@ -96,7 +97,7 @@ const buildSeason = getActiveSeason();
 </style>
 
 <script>
-  import { SEASONS, isDateInSeason } from '../config/seasons';
+  import { SEASONS, isUtilityBarActive, isDateInSeason } from '../config/seasons';
 
   function updateSeasonalBar() {
     const bar = document.getElementById('seasonal-utility-bar');
@@ -107,19 +108,25 @@ const buildSeason = getActiveSeason();
     const previewParam = params.get('season');
 
     let activeSeason = null;
+    let shouldShow = false;
 
     if (previewParam) {
       if (previewParam !== 'none') {
         activeSeason = SEASONS.find(s => s.id === previewParam) || null;
+        // In preview mode, force show the bar for testing
+        shouldShow = !!(activeSeason && activeSeason.utilityBar);
       }
     } else {
       const now = new Date();
       const month = now.getMonth() + 1;
       const day = now.getDate();
       activeSeason = SEASONS.find(s => isDateInSeason(month, day, s.start, s.end)) || null;
+      if (activeSeason) {
+        shouldShow = isUtilityBarActive(activeSeason, now);
+      }
     }
 
-    if (!activeSeason || !activeSeason.utilityBar) {
+    if (!shouldShow || !activeSeason || !activeSeason.utilityBar) {
       bar.style.display = 'none';
       return;
     }
@@ -139,4 +146,3 @@ const buildSeason = getActiveSeason();
   // Run on page load
   updateSeasonalBar();
 </script>
-
