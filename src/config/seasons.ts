@@ -9,6 +9,10 @@ export interface SeasonConfig {
     background: string;  // Subtle tinted card bg
     border: string;      // Border tone
     textDark: string;    // Text color for readability
+    primary?: string;    // Rolling wave color
+    secondary?: string;  // Divider wave color
+    headerBlue?: string; // Header & sky wave color
+    bgLight?: string;    // Page background
   };
   utilityBar?: {
     enabled?: boolean;
@@ -41,6 +45,10 @@ export const SEASONS: SeasonConfig[] = [
       background: '#fcf8f2',        // Warm parchment cream
       border: '#e8d9c5',            // Soft warm border
       textDark: '#4a2c06',          // Warm dark brown
+      primary: '#d6bf72',           // Golden wheat prairie wave
+      secondary: '#e8e2d5',         // Warm oat wave
+      headerBlue: '#b8c5d6',        // Soft hazy autumn sky
+      bgLight: '#faf7f2',           // Warm linen parchment bg
     },
     utilityBar: {
       // Hidden until the week of Thanksgiving (Nov 20 to Nov 28)
@@ -71,6 +79,10 @@ export const SEASONS: SeasonConfig[] = [
       background: '#f4f7f5',        // Winter pine mist
       border: '#c8d6ce',            // Pine frost border
       textDark: '#1c3628',          // Deep pine forest
+      primary: '#3d5c48',           // Evergreen pine wave
+      secondary: '#d9e2dc',         // Frost mist wave
+      headerBlue: '#8ba4b8',        // Winter twilight slate blue
+      bgLight: '#f6f9f7',           // Crisp snow-white tint
     },
     utilityBar: {
       // Only show during Christmas week (Dec 15 to Dec 25)

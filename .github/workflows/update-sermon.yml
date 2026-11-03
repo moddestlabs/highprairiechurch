@@ -1,0 +1,75 @@
+name: Auto-Update Sunday Sermon Video
+
+on:
+  schedule:
+    # Runs Sundays at 19:15 UTC (1:15 PM CST) and 21:15 UTC (3:15 PM CST)
+    - cron: '15 19 * * 0'
+    - cron: '15 21 * * 0'
+  workflow_dispatch: # Allows manual trigger anytime from GitHub Actions tab
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  check-and-update:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Run sermon update check
+        id: update_check
+        run: |
+          node scripts/update-latest-sermon.mjs
+          if [ -n "$(git status --porcelain src/data/latest-video.json)" ]; then
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit and push new sermon video ID
+        if: steps.update_check.outputs.has_changes == 'true'
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/latest-video.json
+          git commit -m "chore: auto-update Sunday sermon video [skip ci]"
+          git push
+
+      - name: Install dependencies
+        if: steps.update_check.outputs.has_changes == 'true'
+        run: npm install
+
+      - name: Build with Astro
+        if: steps.update_check.outputs.has_changes == 'true'
+        run: npm run build
+
+      - name: Setup Pages
+        if: steps.update_check.outputs.has_changes == 'true'
+        uses: actions/configure-pages@v5
+
+      - name: Upload artifact
+        if: steps.update_check.outputs.has_changes == 'true'
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+      - name: Deploy to GitHub Pages
+        if: steps.update_check.outputs.has_changes == 'true'
+        id: deployment
+        uses: actions/deploy-pages@v4
+

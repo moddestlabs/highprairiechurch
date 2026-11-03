@@ -7,6 +7,7 @@
     "start": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "update-sermon": "node scripts/update-latest-sermon.mjs",
     "optimize-images": "node scripts/optimize-images.mjs"
   },
   "dependencies": {

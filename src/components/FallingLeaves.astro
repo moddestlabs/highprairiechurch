@@ -1,0 +1,201 @@
+---
+// FallingLeaves.astro
+// Subtle 10-second falling leaves animation for Autumn
+---
+
+<div id="falling-leaves-root" aria-hidden="true"></div>
+
+<style>
+  #falling-leaves-root {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  :global(.falling-leaves-canvas) {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 2s ease-out;
+  }
+</style>
+
+<script>
+  import { SEASONS, isDateInSeason } from '../config/seasons';
+
+  function initFallingLeaves() {
+    // 1. Accessibility: Never show if visitor prefers reduced motion
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      return;
+    }
+
+    // 2. Check if Autumn season is currently active (or preview param is set)
+    const params = new URLSearchParams(window.location.search);
+    const previewParam = params.get('season');
+    const forceLeaves = params.has('leaves');
+
+    let isAutumn = false;
+    if (previewParam === 'autumn' || forceLeaves) {
+      isAutumn = true;
+    } else if (!previewParam) {
+      const autumn = SEASONS.find(s => s.id === 'autumn');
+      if (autumn) {
+        const now = new Date();
+        isAutumn = isDateInSeason(now.getMonth() + 1, now.getDate(), autumn.start, autumn.end);
+      }
+    }
+
+    if (!isAutumn) return;
+
+    // 3. UX Polish: Only run once per browsing session (unless in preview/forced mode)
+    const hasSeen = sessionStorage.getItem('hpc_autumn_leaves_seen');
+    if (hasSeen && !previewParam && !forceLeaves) {
+      return;
+    }
+    sessionStorage.setItem('hpc_autumn_leaves_seen', 'true');
+
+    // 4. Create and mount high-DPI Canvas
+    const root = document.getElementById('falling-leaves-root');
+    if (!root) return;
+
+    const canvas = document.createElement('canvas');
+    canvas.className = 'falling-leaves-canvas';
+    root.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    // 5. Leaf particle configuration (delicate, low density: 7 leaves)
+    const colors = [
+      '#d6bf72', // Golden wheat
+      '#c47e1b', // Harvest amber
+      '#b25329', // Rustic autumn red-orange
+      '#8c6f3e', // Warm acorn bronze
+      '#e29b38', // Prairie squash gold
+    ];
+
+    interface Leaf {
+      x: number;
+      baseX: number;
+      y: number;
+      size: number;
+      speedY: number;
+      swayRadius: number;
+      swayAngle: number;
+      swaySpeed: number;
+      angle: number;
+      angleSpeed: number;
+      color: string;
+      aspectRatio: number;
+    }
+
+    const leaves: Leaf[] = [];
+    const count = 7; // Just 7 leaves across the screen
+
+    for (let i = 0; i < count; i++) {
+      const baseX = Math.random() * width;
+      leaves.push({
+        x: baseX,
+        baseX: baseX,
+        y: -30 - Math.random() * (height * 0.6), // Staggered drop start
+        size: 13 + Math.random() * 8,            // 13px - 21px
+        speedY: 1.1 + Math.random() * 0.9,       // Gentle slow drift
+        swayRadius: 20 + Math.random() * 25,
+        swayAngle: Math.random() * Math.PI * 2,
+        swaySpeed: 0.02 + Math.random() * 0.02,
+        angle: Math.random() * Math.PI * 2,
+        angleSpeed: (Math.random() - 0.5) * 0.03,
+        color: colors[i % colors.length],
+        aspectRatio: 0.6 + Math.random() * 0.3,
+      });
+    }
+
+    function drawLeaf(ctx: CanvasRenderingContext2D, leaf: Leaf) {
+      ctx.save();
+      ctx.translate(leaf.x, leaf.y);
+      ctx.rotate(leaf.angle);
+      ctx.fillStyle = leaf.color;
+
+      ctx.beginPath();
+      // Draw smooth, organic tapered leaf shape
+      const w = leaf.size * leaf.aspectRatio;
+      const h = leaf.size;
+      ctx.moveTo(0, -h);
+      ctx.bezierCurveTo(w, -h * 0.3, w, h * 0.6, 0, h);
+      ctx.bezierCurveTo(-w, h * 0.6, -w, -h * 0.3, 0, -h);
+      ctx.fill();
+
+      // Subtle center vein
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.12)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.moveTo(0, -h * 0.7);
+      ctx.lineTo(0, h * 0.7);
+      ctx.stroke();
+
+      ctx.restore();
+    }
+
+    let animationId: number;
+    let isRunning = true;
+
+    function render() {
+      if (!isRunning || !ctx) return;
+
+      ctx.clearRect(0, 0, width, height);
+
+      for (const leaf of leaves) {
+        leaf.y += leaf.speedY;
+        leaf.swayAngle += leaf.swaySpeed;
+        leaf.x = leaf.baseX + Math.sin(leaf.swayAngle) * leaf.swayRadius;
+        leaf.angle += leaf.angleSpeed;
+
+        drawLeaf(ctx, leaf);
+      }
+
+      animationId = requestAnimationFrame(render);
+    }
+
+    animationId = requestAnimationFrame(render);
+
+    // 6. Graceful 10-second teardown:
+    // - At 8 seconds: start 2-second smooth fadeout
+    // - At 10 seconds: stop RAF and remove canvas completely
+    setTimeout(() => {
+      canvas.style.opacity = '0';
+    }, 8000);
+
+    setTimeout(() => {
+      isRunning = false;
+      cancelAnimationFrame(animationId);
+      if (canvas.parentNode) {
+        canvas.parentNode.removeChild(canvas);
+      }
+    }, 10200);
+  }
+
+  // Initialize on DOM ready
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFallingLeaves);
+  } else {
+    initFallingLeaves();
+  }
+</script>
+
