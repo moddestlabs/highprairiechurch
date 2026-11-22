@@ -50,15 +50,6 @@ export const SEASONS: SeasonConfig[] = [
       headerBlue: '#b8c5d6',        // Soft hazy autumn sky
       bgLight: '#faf7f2',           // Warm linen parchment bg
     },
-    utilityBar: {
-      // Hidden until the week of Thanksgiving (Nov 20 to Nov 28)
-      start: { month: 11, day: 20 },
-      end: { month: 11, day: 28 },
-      icon: '🌾',
-      text: 'Thanksgiving Praise & Fellowship Service — Sunday, Nov 22 at 6:00 PM',
-      linkText: 'Learn More →',
-      linkUrl: '/bulletin/',
-    },
     spotlight: {
       tagline: 'Harvest of Gratitude',
       heading: 'A Season of Thanksgiving',

@@ -41,27 +41,3 @@ npm run build
 # Preview production build locally
 npm run preview
 ```
-
----
-
-## Switching to Custom Domain (`highprairiechurch.org`)
-
-When you are ready to point the Porkbun domain name:
-
-1. **Update `astro.config.mjs`:**
-   Change:
-   ```javascript
-   export default defineConfig({
-     site: 'https://highprairiechurch.org',
-     // remove or comment out base: '/highprairiechurch'
-   });
-   ```
-2. **In GitHub Repository Settings:**
-   Go to **Settings** -> **Pages** -> **Custom domain** -> Enter `highprairiechurch.org`.
-3. **In Porkbun DNS:**
-   Add GitHub Pages A records:
-   * `185.199.108.153`
-   * `185.199.109.153`
-   * `185.199.110.153`
-   * `185.199.111.153`
-   * CNAME `www` pointing to `moddestlabs.github.io`

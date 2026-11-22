@@ -1,9 +1,32 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { getEntry } from 'astro:content';
+
 const base = import.meta.env.BASE_URL.replace(/\/$/, '');
+const bulletinEntry = await getEntry('bulletins', 'current-bulletin');
+const bulletin = bulletinEntry?.data;
+
+const dateFormatted = bulletin?.date
+  ? new Date(bulletin.date).toLocaleDateString('en-US', {
+      weekday: 'long',
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+      timeZone: 'UTC',
+    })
+  : 'Sunday, November 22, 2026';
+
+const pages = bulletin?.pages || [
+  { title: "Bulletin Cover", image: "/images/bulletin-2026-11-22-page-1-cover.jpg" },
+  { title: "Order of Worship", image: "/images/bulletin-2026-11-22-page-2-order-of-worship.jpg" },
+  { title: "Upcoming Events & Announcements", image: "/images/bulletin-2026-11-22-page-3-announcements.jpg" },
+  { title: "Church Info & Schedule", image: "/images/bulletin-2026-11-22-page-4-schedule.jpg" },
+  { title: "Prayer List & Daily Bible Reading", image: "/images/bulletin-2026-11-22-page-5-prayer-list.png" },
+  { title: "Sermon Notes – 1 Thessalonians 1:6-10", image: "/images/bulletin-2026-11-22-page-6-sermon-notes.png" },
+];
 ---
 
-<Layout title="Current Bulletin – High Prairie Church">
+<Layout title={`Current Bulletin (${dateFormatted}) – High Prairie Church`}>
   <div class="subpage-banner">
     <div class="subpage-banner-inner">
       <img src={`${base}/images/whole-church.jpg`} alt="Current Bulletin" class="subpage-banner-img" />
@@ -17,46 +40,74 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
       <h5>26480 187th Street, Leavenworth, KS 66048 • (913) 727-1576</h5>
       <p class="service-time">9:30 AM Sunday School Classes for all ages</p>
       <p class="service-time">10:45 AM Morning Worship Service</p>
-      <h3 class="bulletin-date-title">Church Bulletin for July 5th, 2026</h3>
+      {bulletin?.announcements && (
+        <p class="bulletin-announcement-callout">
+          🍂 <strong>Special Note:</strong> {bulletin.announcements}
+        </p>
+      )}
+      <h3 class="bulletin-date-title">Church Bulletin for {dateFormatted}</h3>
+    </div>
+
+    <!-- Quick Page Jump Navigation -->
+    <div class="bulletin-nav-chips">
+      <span class="nav-label">Jump to page:</span>
+      {pages.map((p, idx) => (
+        <a href={`#page-${idx + 1}`} class="bulletin-chip">
+          Page {idx + 1}
+        </a>
+      ))}
     </div>
 
     <!-- Bulletin Scans Gallery -->
     <div class="bulletin-gallery">
-      <div class="bulletin-page-card">
-        <a href={`${base}/images/cover26-7-5.jpg`} target="_blank" rel="noopener" title="Click to view full size">
-          <img src={`${base}/images/cover26-7-5.jpg`} alt="Church Bulletin for July 5th, 2026 - Cover" class="bulletin-img" />
-        </a>
-      </div>
+      {pages.map((p, idx) => (
+        <div id={`page-${idx + 1}`} class="bulletin-page-card">
+          <div class="page-card-header">
+            <div class="page-title-group">
+              <span class="page-badge">Page {idx + 1} of {pages.length}</span>
+              <h4 class="page-title">{p.title}</h4>
+            </div>
+            <a 
+              href={`${base}${p.image}`} 
+              target="_blank" 
+              rel="noopener" 
+              class="zoom-btn" 
+              title="Open full-resolution image in new tab"
+            >
+              🔍 Open Full Size
+            </a>
+          </div>
 
-      <div class="bulletin-page-card">
-        <a href={`${base}/images/coverinside26-7-5.jpg`} target="_blank" rel="noopener" title="Click to view full size">
-          <img src={`${base}/images/coverinside26-7-5.jpg`} alt="Church Bulletin for July 5th, 2026 - Inside" class="bulletin-img" />
-        </a>
-      </div>
-
-      <div class="bulletin-page-card">
-        <a href={`${base}/images/insertnotes26-7-5.jpg`} target="_blank" rel="noopener" title="Click to view full size">
-          <img src={`${base}/images/insertnotes26-7-5.jpg`} alt="Church Bulletin for July 5th, 2026 - Insert Notes" class="bulletin-img" />
-        </a>
-      </div>
+          <div class="page-image-wrapper">
+            <a href={`${base}${p.image}`} target="_blank" rel="noopener" title="Click to view full size">
+              <img 
+                src={`${base}${p.image}`} 
+                alt={`Church Bulletin for ${dateFormatted} - ${p.title}`} 
+                class="bulletin-img" 
+                loading={idx < 2 ? "eager" : "lazy"} 
+              />
+            </a>
+          </div>
+        </div>
+      ))}
     </div>
   </div>
 </Layout>
 
 <style>
   .page-content {
-    max-width: 1000px;
+    max-width: 900px;
     margin: 0 auto;
-    padding: 40px 20px 80px 20px;
+    padding: 30px 20px 80px 20px;
   }
 
   .bulletin-header-card {
     background: #ffffff;
-    padding: 36px;
+    padding: 36px 24px;
     border-radius: 12px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
     text-align: center;
-    margin-bottom: 36px;
+    margin-bottom: 24px;
   }
 
   .bulletin-header-card h2 {
@@ -81,6 +132,16 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     margin-bottom: 4px;
   }
 
+  .bulletin-announcement-callout {
+    margin-top: 14px;
+    padding: 10px 18px;
+    background-color: var(--pagelayer-color-bg-light, #f0f0f1);
+    border-radius: 8px;
+    font-size: 15px;
+    color: var(--color-text);
+    display: inline-block;
+  }
+
   .bulletin-date-title {
     font-size: 1.4rem;
     font-family: var(--font-body);
@@ -91,44 +152,146 @@ const base = import.meta.env.BASE_URL.replace(/\/$/, '');
     border-top: 2px solid var(--pagelayer-color-primary);
   }
 
+  /* Quick Navigation Chips */
+  .bulletin-nav-chips {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 28px;
+  }
+
+  .nav-label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-muted, #555962);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  .bulletin-chip {
+    display: inline-block;
+    padding: 6px 14px;
+    background-color: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text);
+    text-decoration: none !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    transition: all 0.2s ease;
+  }
+
+  .bulletin-chip:hover {
+    background-color: var(--pagelayer-color-primary);
+    transform: translateY(-1px);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  /* Gallery Cards */
   .bulletin-gallery {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 36px;
   }
 
   .bulletin-page-card {
     background: #ffffff;
-    padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
-    display: flex;
-    justify-content: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    overflow: hidden;
+    scroll-margin-top: 80px;
   }
 
-  .bulletin-page-card a {
+  .page-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding: 16px 24px;
+    background-color: #fafbfc;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  }
+
+  .page-title-group {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .page-badge {
+    display: inline-block;
+    background-color: var(--pagelayer-color-primary);
+    color: #1a1b1f;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.3px;
+  }
+
+  .page-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--color-text);
+    margin: 0;
+  }
+
+  .zoom-btn {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-navy, #18206f) !important;
+    text-decoration: none !important;
+    padding: 5px 12px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.04);
+    transition: background 0.2s;
+  }
+
+  .zoom-btn:hover {
+    background: rgba(0, 0, 0, 0.08);
+  }
+
+  .page-image-wrapper {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    background-color: #fdfdfd;
+  }
+
+  .page-image-wrapper a {
     display: block;
-    width: 100%;
+    max-width: 100%;
     text-align: center;
   }
 
   .bulletin-img {
     max-width: 100%;
     height: auto;
-    border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
-    transition: transform 0.2s;
+    border-radius: 4px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+    transition: transform 0.2s ease;
   }
 
   .bulletin-img:hover {
-    transform: scale(1.01);
+    transform: scale(1.005);
   }
 
   @media (max-width: 768px) {
+    .page-content {
+      padding: 16px 12px 60px 12px;
+    }
     .bulletin-header-card {
       padding: 24px 16px;
     }
-    .bulletin-page-card {
+    .page-card-header {
+      padding: 12px 16px;
+    }
+    .page-image-wrapper {
       padding: 12px;
     }
   }

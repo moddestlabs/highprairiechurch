@@ -14,7 +14,7 @@ const isBarActive = buildSeason ? isUtilityBarActive(buildSeason) : false;
   style={isBarActive && buildSeason ? `display: block; background-color: ${buildSeason.colors.accent};` : 'display: none;'}
 >
   <div class="seasonal-utility-inner">
-    {SEASONS.map((season) => (
+    {SEASONS.filter((s) => s.utilityBar).map((season) => (
       <div 
         class="seasonal-msg" 
         data-season-content={season.id}
